@@ -12,49 +12,19 @@ public class Reality {
     private String description;
     private String[] images;
 
-    public Reality(RealityBuilder realityBuilder) {
-        this.id = realityBuilder.id;
-        this.type = realityBuilder.type;
-        this.location = realityBuilder.location;
-        this.price = realityBuilder.price;
-        this.rooms = realityBuilder.rooms;
-        this.area = realityBuilder.area;
-        this.description = realityBuilder.description;
-        this.images = realityBuilder.images;
+    public Reality() {
     }
 
-    public static class RealityBuilder {
-        private Long id;
-        private String type;
-        private String location;
-        private int price;
-        private int rooms;
-        private int area;
-        private String description;
-        private String[] images;
-
-        public RealityBuilder(Long id, String type, String location, int price, int rooms, int area) {
-            this.id = id;
-            this.type = type;
-            this.location = location;
-            this.price = price;
-            this.rooms = rooms;
-            this.area = area;
-        }
-
-        public RealityBuilder setDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public RealityBuilder setImages(String[] images) {
-            this.images = images;
-            return this;
-        }
-
-        public Reality build() {
-            return new Reality(this);
-        }
+    // constructor for ALL fields
+    public Reality(Long id, String type, String location, int price, int rooms, int area, String description, String[] images) {
+        this.id = id;
+        this.type = type;
+        this.location = location;
+        this.price = price;
+        this.rooms = rooms;
+        this.area = area;
+        this.description = description;
+        this.images = images;
     }
 
     public long getId() {

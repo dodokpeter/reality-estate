@@ -3,7 +3,7 @@ package com.example.demo.reality;
 import java.util.Arrays;
 
 public class Reality {
-    private Long id;
+    private long id;
     private String type;
     private String location;
     private int price;
@@ -16,7 +16,7 @@ public class Reality {
     }
 
     // constructor for ALL fields
-    public Reality(Long id, String type, String location, int price, int rooms, int area, String description, String[] images) {
+    public Reality(long id, String type, String location, int price, int rooms, int area, String description, String[] images) {
         this.id = id;
         this.type = type;
         this.location = location;

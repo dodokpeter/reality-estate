@@ -32,22 +32,10 @@ public class RealityController {
         try {
             return realityService.getRealityById(realityId);
         }
-        catch (HttpClientErrorException e) {
-            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                return ResponseEntity
-                        .status(HttpStatus.NOT_FOUND)
-                        .body("Nehnuteľnosť s daným realityId nebola nájdená.");
-            }
-            else if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body("Neplatný alebo chýbajúci identifikátor nehnuteľnosti (realityId).");
-            }
-            else {
-                return ResponseEntity
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Chyba na strane servera.");
-            }
+        catch (RealityNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
         }
     }
 }

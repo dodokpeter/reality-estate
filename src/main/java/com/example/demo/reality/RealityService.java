@@ -8,6 +8,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class RealityService {
@@ -50,5 +51,30 @@ public class RealityService {
         }
 
         throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
+    }
+
+    public void updateReality(Reality reality) {
+        List<Reality> newRealityList = Stream.concat(realityList.stream(), List.of(reality).stream()).toList();
+        System.out.println(newRealityList);
+    }
+
+    public void updateReality(Reality reality, long realityId) throws RealityNotFoundException {
+        List<Reality> newRealityList = new ArrayList<>();
+        boolean foundReality = false;
+        for (Reality r : realityList) {
+            // add the element to list if it's not the same id, add the new reality instead if it's the same id
+            if (r.getId() != realityId) {
+               newRealityList = Stream.concat(newRealityList.stream(), List.of(r).stream()).toList();
+            }
+            else {
+                newRealityList = Stream.concat(newRealityList.stream(), List.of(reality).stream()).toList();
+                foundReality = true;
+            }
+        }
+        if (!foundReality) {
+            throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
+        }
+
+        System.out.println(newRealityList);
     }
 }

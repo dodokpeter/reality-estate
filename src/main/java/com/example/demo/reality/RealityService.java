@@ -1,9 +1,13 @@
 package com.example.demo.reality;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RealityService {
@@ -36,5 +40,15 @@ public class RealityService {
 
     public List<Reality> getRealities() {
         return realityList;
+    }
+
+    public <T> ResponseEntity<T> getRealityById(long realityId) throws RealityNotFoundException {
+        for (Reality reality : realityList) {
+            if (reality.getId() == realityId) {
+                return (ResponseEntity<T>) ResponseEntity.ok(reality);
+            }
+        }
+
+        throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
     }
 }

@@ -54,20 +54,21 @@ public class RealityService {
     }
 
     public void updateReality(Reality reality) {
-        List<Reality> newRealityList = Stream.concat(realityList.stream(), List.of(reality).stream()).toList();
+        List<Reality> newRealityList = Stream.concat(realityList.stream(), Stream.of(reality)).toList();
         System.out.println(newRealityList);
     }
 
-    public void updateReality(Reality reality, long realityId) throws RealityNotFoundException {
+    // logger (like in Run)
+    public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
         List<Reality> newRealityList = new ArrayList<>();
         boolean foundReality = false;
         for (Reality r : realityList) {
             // add the element to list if it's not the same id, add the new reality instead if it's the same id
-            if (r.getId() != realityId) {
-               newRealityList = Stream.concat(newRealityList.stream(), List.of(r).stream()).toList();
+            if (!r.getId().equals(realityId)) {
+               newRealityList = Stream.concat(newRealityList.stream(), Stream.of(r)).toList();
             }
             else {
-                newRealityList = Stream.concat(newRealityList.stream(), List.of(reality).stream()).toList();
+                newRealityList = Stream.concat(newRealityList.stream(), Stream.of(reality)).toList();
                 foundReality = true;
             }
         }

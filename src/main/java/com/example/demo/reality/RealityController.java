@@ -40,12 +40,17 @@ public class RealityController {
         realityService.updateReality(reality);
     }
 
-    @PostMapping("/{realityId}")
-    public void updateReality(@RequestBody Reality reality, @PathVariable long realityId) {
-        try {
-            realityService.updateReality(reality, realityId);
-        } catch (RealityNotFoundException e) {
-            throw new RuntimeException(e);
+    @PostMapping( "/{realityId}")
+    public void updateReality(@RequestBody Reality reality, @PathVariable (required = false) Long realityId) {
+        if (realityId == null) {
+            realityService.updateReality(reality);
+        }
+        else {
+            try {
+                realityService.updateReality(reality, realityId);
+            } catch (RealityNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

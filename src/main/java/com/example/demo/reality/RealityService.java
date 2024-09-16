@@ -1,16 +1,21 @@
 package com.example.demo.reality;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class RealityService {
+
+    private final RealityRepository realityRepository;
 
     private List<Reality> realityList = List.of(
             new Reality(
@@ -20,11 +25,12 @@ public class RealityService {
                     150000,
                     3,
                     75,
-                    "Pekný 3-izbový byt v centre mesta.",
-                    new String[]{
-                            "https://priklad.sk/obrazok1.jpg",
-                            "https://priklad.sk/obrazok2.jpg"
-                    }),
+                    "Pekný 3-izbový byt v centre mesta."
+//                    new String[]{
+//                            "https://priklad.sk/obrazok1.jpg",
+//                            "https://priklad.sk/obrazok2.jpg"
+//                    }),
+            ),
             new Reality(
                     124L,
                     "dom",
@@ -32,52 +38,48 @@ public class RealityService {
                     250000,
                     5,
                     150,
-                    "Rodinný dom s veľkou záhradou.",
-                    new String[]{
-                            "https://priklad.sk/obrazok3.jpg"
-                    }
+                    "Rodinný dom s veľkou záhradou."
+//                    new String[]{
+//                            "https://priklad.sk/obrazok3.jpg"
+//                    }
             )
     );
 
     public List<Reality> getRealities() {
-        log.info("Reality list: {}", realityList);
-        return realityList;
+        log.info("Returning the list of realities ...");
+        return realityRepository.findAll();
     }
 
     public <T> ResponseEntity<T> getRealityById(long realityId) throws RealityNotFoundException {
-        for (Reality reality : realityList) {
-            if (reality.getId() == realityId) {
-                log.info("Found reality with id: {}", realityId);
-                return (ResponseEntity<T>) ResponseEntity.ok(reality);
-            }
+        log.info("Searching for the repository with the provided id ...");
+
+        Optional<Reality> realityInDb = realityRepository.findById(realityId);
+        if (realityInDb.isPresent()) {
+            return (ResponseEntity<T>) ResponseEntity.ok(realityInDb);
         }
 
         log.error("Could not find reality with id: {}", realityId);
         throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
     }
 
+    // add a new reality to the db
     public void updateReality(Reality reality) {
-        List<Reality> newRealityList = Stream.concat(realityList.stream(), Stream.of(reality)).toList();
-        log.info("New list of realities: {}", newRealityList);
+        log.info("Adding a new reality to the database ...");
+        realityRepository.save(reality);
     }
 
+    // edit an existing reality / add a new reality if not found
     public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
-        List<Reality> newRealityList = new ArrayList<>();
-        boolean foundReality = false;
-        for (Reality r : realityList) {
-            // add the element to list if it's not the same id, add the new reality instead if it's the same id
-            if (!r.getId().equals(realityId)) {
-               newRealityList = Stream.concat(newRealityList.stream(), Stream.of(r)).toList();
-            }
-            else {
-                newRealityList = Stream.concat(newRealityList.stream(), Stream.of(reality)).toList();
-                foundReality = true;
-            }
+        Optional<Reality> realityInDb = realityRepository.findById(realityId);
+        if (realityInDb.isPresent()) {
+            realityRepository.delete(realityInDb.get());
+            realityInDb.ifPresent(realityRepository::delete);
+            realityRepository.save(reality);
+            log.info("Updated the reality with the current id.");
         }
-        if (!foundReality) {
+        else {
+            log.error("Could not find reality with this id.");
             throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
         }
-
-        log.info("Updated list of realities: {}", newRealityList);
     }
 }

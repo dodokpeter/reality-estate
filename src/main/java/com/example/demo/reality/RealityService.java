@@ -1,17 +1,19 @@
 package com.example.demo.reality;
 
-import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class RealityService {
+
+    private static final Logger logger = LoggerFactory.getLogger(RealityService.class);
+
     private List<Reality> realityList = List.of(
             new Reality(
                     123L,
@@ -40,22 +42,25 @@ public class RealityService {
     );
 
     public List<Reality> getRealities() {
+        logger.info("Reality list: {}", realityList);
         return realityList;
     }
 
     public <T> ResponseEntity<T> getRealityById(long realityId) throws RealityNotFoundException {
         for (Reality reality : realityList) {
             if (reality.getId() == realityId) {
+                logger.info("Found reality with id: {}", realityId);
                 return (ResponseEntity<T>) ResponseEntity.ok(reality);
             }
         }
 
+        logger.error("Could not find reality with id: {}", realityId);
         throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
     }
 
     public void updateReality(Reality reality) {
         List<Reality> newRealityList = Stream.concat(realityList.stream(), Stream.of(reality)).toList();
-        System.out.println(newRealityList);
+        logger.info("New list of realities: {}", newRealityList);
     }
 
     // logger (like in Run)
@@ -76,6 +81,6 @@ public class RealityService {
             throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
         }
 
-        System.out.println(newRealityList);
+        logger.info("Updated list of realities: {}", newRealityList);
     }
 }

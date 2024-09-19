@@ -2,13 +2,14 @@ package com.example.demo.reality;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -16,38 +17,17 @@ import java.util.stream.Stream;
 public class RealityService {
 
     private final RealityRepository realityRepository;
-
-    private List<Reality> realityList = List.of(
-            new Reality(
-                    123L,
-                    "byt",
-                    "Bratislava",
-                    150000,
-                    3,
-                    75,
-                    "Pekný 3-izbový byt v centre mesta."
-//                    new String[]{
-//                            "https://priklad.sk/obrazok1.jpg",
-//                            "https://priklad.sk/obrazok2.jpg"
-//                    }),
-            ),
-            new Reality(
-                    124L,
-                    "dom",
-                    "Košice",
-                    250000,
-                    5,
-                    150,
-                    "Rodinný dom s veľkou záhradou."
-//                    new String[]{
-//                            "https://priklad.sk/obrazok3.jpg"
-//                    }
-            )
-    );
+    private final MediaRepository mediaRepository;
 
     public List<Reality> getRealities() {
         log.info("Returning the list of realities ...");
         return realityRepository.findAll();
+    }
+
+    public Page<Reality> getRealitiesPaginated(Pageable page) {
+        log.info("Returning the list of PAGINATED realities ...");
+        Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());
+        return realityRepository.findAll(realityPage);
     }
 
     public <T> ResponseEntity<T> getRealityById(long realityId) throws RealityNotFoundException {
@@ -63,18 +43,27 @@ public class RealityService {
     }
 
     // add a new reality to the db
-    public void updateReality(Reality reality) {
+    // todo: get media too; delete
+    // todo: user class: one to one; owner of the reality (name email phone)
+    public void addReality(Reality reality) {
         log.info("Adding a new reality to the database ...");
-        realityRepository.save(reality);
+        Reality realityNew = realityRepository.save(reality);  // todo: < transactional
+        reality.getMedias().forEach(
+                media -> media.setReality(realityNew)
+        );
+        mediaRepository.saveAll(reality.getMedias());
     }
 
     // edit an existing reality / add a new reality if not found
+    // todo 3: try out the transactional annotation > open the db connection and hold it until you exit the mehtod
+    // eager vs lazy
+//    @Transactional
     public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
-        Optional<Reality> realityInDb = realityRepository.findById(realityId);
-        if (realityInDb.isPresent()) {
-            realityRepository.delete(realityInDb.get());
-            realityInDb.ifPresent(realityRepository::delete);
-            realityRepository.save(reality);
+        Optional<Reality> realityInDbOpt = realityRepository.findById(realityId);
+        if (realityInDbOpt.isPresent()) {
+            reality.setId(realityInDbOpt.get().getId());
+            reality = realityRepository.save(reality);  // todo: < transactional
+            mediaRepository.saveAll(reality.getMedias());
             log.info("Updated the reality with the current id.");
         }
         else {

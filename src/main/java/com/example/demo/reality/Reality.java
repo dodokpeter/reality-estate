@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,13 +25,12 @@ public class Reality {
     private int rooms;
     private int area;
     private String description;
-//    private String[] images;
 
-    // todo: jpa repository spring boot - ako sa to cita z db
-    // launch the project > controller > service > jpa.repository > findall on response
-    // configure h2 not to mem but to file (so the data doesn't get erased)
-    // new table - media (id, url of the photo, photo type (video / images))
-    // ^ one to many
+    @OneToMany(mappedBy = "reality")
+    private List<Media> medias;
+
+
+    // todo 4: configure h2 not to mem but to file (so the data doesn't get erased)
     @Override
     public String toString() {
         return "Reality{" +

@@ -1,5 +1,6 @@
 package com.example.demo.reality;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +21,7 @@ public class Media {
     private String url;
     private MediaType type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_reality_id", referencedColumnName = "id")
     private Reality reality;
 }

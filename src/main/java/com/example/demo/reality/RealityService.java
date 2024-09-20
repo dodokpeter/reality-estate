@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +20,33 @@ public class RealityService {
     private final RealityRepository realityRepository;
     private final MediaRepository mediaRepository;
 
-    public List<Reality> getRealities() {
+    // todo: for loops > streams (private method for stream mapping)
+    // todo: private method for MODELMAPPER + private method for mapstruct (via dependencies)
+    public List<RealityResponse> getRealities() {
         log.info("Returning the list of realities ...");
-        return realityRepository.findAll();
+        List<Reality> realities = realityRepository.findAll();
+        List<RealityResponse> realityResponses = new ArrayList<>();
+        for (Reality reality : realities) {
+            RealityResponse realityResponse = new RealityResponse();
+            realityResponse.setId(reality.getId());
+            realityResponse.setArea(reality.getArea());
+            realityResponse.setDescription(reality.getDescription());
+            realityResponse.setPrice(reality.getPrice());
+            realityResponse.setArea(reality.getArea());
+            realityResponse.setLocation(reality.getLocation());
+
+            List<Media> medias = reality.getMedias();
+            List<MediaResponse> mediasResponses = new ArrayList<>();
+            for (Media media : medias) {
+                mediasResponses.add(new MediaResponse(media.getUrl(), media.getType()));
+            }
+            realityResponse.setMedias(mediasResponses);
+            realityResponses.add(realityResponse);
+        }
+        return realityResponses;
     }
 
+    // todo: update to reality response
     public Page<Reality> getRealitiesPaginated(Pageable page) {
         log.info("Returning the list of PAGINATED realities ...");
         Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());
@@ -55,9 +78,7 @@ public class RealityService {
     }
 
     // edit an existing reality / add a new reality if not found
-    // todo 3: try out the transactional annotation > open the db connection and hold it until you exit the mehtod
-    // eager vs lazy
-//    @Transactional
+    // todo 3: try out the @Transactional annotation > open the db connection and hold it until you exit the mehtod
     public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
         Optional<Reality> realityInDbOpt = realityRepository.findById(realityId);
         if (realityInDbOpt.isPresent()) {

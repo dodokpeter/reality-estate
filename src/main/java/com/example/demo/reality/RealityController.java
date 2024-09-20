@@ -17,7 +17,7 @@ public class RealityController {
     private final RealityService realityService;
 
     @GetMapping
-    public List<Reality> getRealities() {
+    public List<RealityResponse> getRealities() {
         return realityService.getRealities();
     }
 

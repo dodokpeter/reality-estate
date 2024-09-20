@@ -1,8 +1,4 @@
 package com.example.demo.reality;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,30 +6,25 @@ import lombok.Setter;
 
 import java.util.List;
 
+// todo: to record
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "RealitiesTable")
-public class Reality {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class RealityResponse {
     private Long id;
-
     private String type;
     private String location;
     private int price;
     private int rooms;
     private int area;
     private String description;
-
-    @OneToMany(mappedBy = "reality", fetch = FetchType.LAZY)
-    private List<Media> medias;
+    private List<MediaResponse> medias;
 
     @Override
     public String toString() {
-        return "Reality{" +
+        return "RealityResponse{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", location='" + location + '\'' +

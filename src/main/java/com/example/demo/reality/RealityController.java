@@ -22,7 +22,7 @@ public class RealityController {
     }
 
     @GetMapping("/paginated")
-    public Page<Reality> getPage(Pageable page) {
+    public Page<RealityResponse> getPage(Pageable page) {
         return realityService.getRealitiesPaginated(page);
     }
 
@@ -43,17 +43,9 @@ public class RealityController {
         realityService.addReality(reality);
     }
 
+    // todo: why the 500 ?
     @PostMapping( "/{realityId}")
-    public void updateReality(@RequestBody Reality reality, @PathVariable (required = false) Long realityId) {
-        if (realityId == null) {
-            realityService.addReality(reality);
-        }
-        else {
-            try {
-                realityService.updateReality(reality, realityId);
-            } catch (RealityNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    public void updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
+        realityService.updateReality(reality, realityId);
     }
 }

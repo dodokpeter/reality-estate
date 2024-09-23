@@ -1,16 +1,18 @@
 package com.example.demo.reality;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -20,37 +22,34 @@ public class RealityService {
     private final RealityRepository realityRepository;
     private final MediaRepository mediaRepository;
 
-    // todo: for loops > streams (private method for stream mapping)
-    // todo: private method for MODELMAPPER + private method for mapstruct (via dependencies)
-    public List<RealityResponse> getRealities() {
-        log.info("Returning the list of realities ...");
-        List<Reality> realities = realityRepository.findAll();
-        List<RealityResponse> realityResponses = new ArrayList<>();
-        for (Reality reality : realities) {
-            RealityResponse realityResponse = new RealityResponse();
-            realityResponse.setId(reality.getId());
-            realityResponse.setArea(reality.getArea());
-            realityResponse.setDescription(reality.getDescription());
-            realityResponse.setPrice(reality.getPrice());
-            realityResponse.setArea(reality.getArea());
-            realityResponse.setLocation(reality.getLocation());
-
-            List<Media> medias = reality.getMedias();
-            List<MediaResponse> mediasResponses = new ArrayList<>();
-            for (Media media : medias) {
-                mediasResponses.add(new MediaResponse(media.getUrl(), media.getType()));
-            }
-            realityResponse.setMedias(mediasResponses);
-            realityResponses.add(realityResponse);
-        }
-        return realityResponses;
+    private List<RealityResponse> realityResponseMapper(List<Reality> realityList) {
+        return realityList.stream()
+                .map(r -> new RealityResponse(
+                        r.getId(),
+                        r.getType(),
+                        r.getLocation(),
+                        r.getPrice(),
+                        r.getRooms(),
+                        r.getArea(),
+                        r.getDescription(),
+                        r.getMedias().stream()
+                                .map(m -> new MediaResponse(m.getUrl(), m.getType()))
+                                .toList()
+                ))
+                .collect(Collectors.toList());
     }
 
-    // todo: update to reality response
-    public Page<Reality> getRealitiesPaginated(Pageable page) {
+    // todo: HEXAGONAL architecture
+    public List<RealityResponse> getRealities() {
+        log.info("Returning the list of realities ...");
+        return realityResponseMapper(realityRepository.findAll());
+    }
+
+    public Page<RealityResponse> getRealitiesPaginated(Pageable page) {
         log.info("Returning the list of PAGINATED realities ...");
         Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());
-        return realityRepository.findAll(realityPage);
+        List<RealityResponse> realities = realityResponseMapper(realityRepository.findAll(realityPage).toList());
+        return new PageImpl<>(realities);
     }
 
     public <T> ResponseEntity<T> getRealityById(long realityId) throws RealityNotFoundException {
@@ -66,11 +65,12 @@ public class RealityService {
     }
 
     // add a new reality to the db
-    // todo: get media too; delete
+    // todo: delete
     // todo: user class: one to one; owner of the reality (name email phone)
+    @Transactional
     public void addReality(Reality reality) {
         log.info("Adding a new reality to the database ...");
-        Reality realityNew = realityRepository.save(reality);  // todo: < transactional
+        Reality realityNew = realityRepository.save(reality);
         reality.getMedias().forEach(
                 media -> media.setReality(realityNew)
         );
@@ -78,12 +78,12 @@ public class RealityService {
     }
 
     // edit an existing reality / add a new reality if not found
-    // todo 3: try out the @Transactional annotation > open the db connection and hold it until you exit the mehtod
+    @Transactional
     public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
         Optional<Reality> realityInDbOpt = realityRepository.findById(realityId);
         if (realityInDbOpt.isPresent()) {
             reality.setId(realityInDbOpt.get().getId());
-            reality = realityRepository.save(reality);  // todo: < transactional
+            reality = realityRepository.save(reality);
             mediaRepository.saveAll(reality.getMedias());
             log.info("Updated the reality with the current id.");
         }

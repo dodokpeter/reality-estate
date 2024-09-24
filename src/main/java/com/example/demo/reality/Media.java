@@ -18,6 +18,9 @@ public class Media {
     private Long id;
 
     private String url;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="type")
     private MediaType type;
 
     @ManyToOne(fetch = FetchType.LAZY)

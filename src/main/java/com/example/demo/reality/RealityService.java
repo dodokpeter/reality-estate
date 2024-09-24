@@ -23,12 +23,10 @@ public class RealityService {
     private final MediaRepository mediaRepository;
 
     // todo: another method for that / diff class (realityMapper for all the mappers) -> mapstruct
-    // todo: enum but IMAGE / VIDEO in db (not 0) (config)
-    // todo: all responses to DTO (mediaDTO, realityDTO)
     // todo: delete media
-    private List<RealityResponse> realityResponseMapper(List<Reality> realityList) {
+    private List<RealityDTO> realityResponseMapper(List<Reality> realityList) {
         return realityList.stream()
-                .map(r -> new RealityResponse(
+                .map(r -> new RealityDTO(
                         r.getId(),
                         r.getType(),
                         r.getLocation(),
@@ -37,22 +35,22 @@ public class RealityService {
                         r.getArea(),
                         r.getDescription(),
                         r.getMedias().stream()
-                                .map(m -> new MediaResponse(m.getUrl(), m.getType()))
+                                .map(m -> new MediaDTO(m.getUrl(), m.getType()))
                                 .toList()
                 ))
                 .collect(Collectors.toList());
     }
 
     // todo: HEXAGONAL architecture
-    public List<RealityResponse> getRealities() {
+    public List<RealityDTO> getRealities() {
         log.info("Returning the list of realities ...");
         return realityResponseMapper(realityRepository.findAll());
     }
 
-    public Page<RealityResponse> getRealitiesPaginated(Pageable page) {
+    public Page<RealityDTO> getRealitiesPaginated(Pageable page) {
         log.info("Returning the list of PAGINATED realities ...");
         Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());
-        List<RealityResponse> realities = realityResponseMapper(realityRepository.findAll(realityPage).toList());
+        List<RealityDTO> realities = realityResponseMapper(realityRepository.findAll(realityPage).toList());
         return new PageImpl<>(realities);
     }
 

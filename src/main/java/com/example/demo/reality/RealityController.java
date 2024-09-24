@@ -17,12 +17,12 @@ public class RealityController {
     private final RealityService realityService;
 
     @GetMapping
-    public List<RealityResponse> getRealities() {
+    public List<RealityDTO> getRealities() {
         return realityService.getRealities();
     }
 
     @GetMapping("/paginated")
-    public Page<RealityResponse> getPage(Pageable page) {
+    public Page<RealityDTO> getPage(Pageable page) {
         return realityService.getRealitiesPaginated(page);
     }
 

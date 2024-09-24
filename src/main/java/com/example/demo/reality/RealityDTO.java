@@ -1,7 +1,7 @@
 package com.example.demo.reality;
 import java.util.List;
 
-public record RealityResponse (
+public record RealityDTO(
     Long id,
     String type,
     String location,
@@ -9,5 +9,5 @@ public record RealityResponse (
     int rooms,
     int area,
     String description,
-    List<MediaResponse> medias
+    List<MediaDTO> medias
 ) {}

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,45 +20,30 @@ public class RealityService {
 
     private final RealityRepository realityRepository;
     private final MediaRepository mediaRepository;
+    private final RealityMapper realityMapper;
 
-    // todo: another method for that / diff class (realityMapper for all the mappers) -> mapstruct
     // todo: delete media
-    private List<RealityDTO> realityResponseMapper(List<Reality> realityList) {
-        return realityList.stream()
-                .map(r -> new RealityDTO(
-                        r.getId(),
-                        r.getType(),
-                        r.getLocation(),
-                        r.getPrice(),
-                        r.getRooms(),
-                        r.getArea(),
-                        r.getDescription(),
-                        r.getMedias().stream()
-                                .map(m -> new MediaDTO(m.getUrl(), m.getType()))
-                                .toList()
-                ))
-                .collect(Collectors.toList());
-    }
+
 
     // todo: HEXAGONAL architecture
     public List<RealityDTO> getRealities() {
         log.info("Returning the list of realities ...");
-        return realityResponseMapper(realityRepository.findAll());
+        return realityMapper.manualListMapper(realityRepository.findAll());
     }
 
     public Page<RealityDTO> getRealitiesPaginated(Pageable page) {
         log.info("Returning the list of PAGINATED realities ...");
         Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());
-        List<RealityDTO> realities = realityResponseMapper(realityRepository.findAll(realityPage).toList());
+        List<RealityDTO> realities = realityMapper.manualListMapper(realityRepository.findAll(realityPage).toList());
         return new PageImpl<>(realities);
     }
 
     public <T> ResponseEntity<T> getRealityById(long realityId) throws RealityNotFoundException {
         log.info("Searching for the repository with the provided id ...");
 
-        Optional<Reality> realityInDb = realityRepository.findById(realityId);
+        Optional<? extends Reality> realityInDb = realityRepository.findById(realityId);
         if (realityInDb.isPresent()) {
-            return (ResponseEntity<T>) ResponseEntity.ok(realityInDb);
+            return (ResponseEntity<T>) ResponseEntity.ok(realityMapper.manualMapper(realityInDb.get()));
         }
 
         log.error("Could not find reality with id: {}", realityId);

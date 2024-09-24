@@ -22,6 +22,10 @@ public class RealityService {
     private final RealityRepository realityRepository;
     private final MediaRepository mediaRepository;
 
+    // todo: another method for that / diff class (realityMapper for all the mappers) -> mapstruct
+    // todo: enum but IMAGE / VIDEO in db (not 0) (config)
+    // todo: all responses to DTO (mediaDTO, realityDTO)
+    // todo: delete media
     private List<RealityResponse> realityResponseMapper(List<Reality> realityList) {
         return realityList.stream()
                 .map(r -> new RealityResponse(
@@ -65,7 +69,6 @@ public class RealityService {
     }
 
     // add a new reality to the db
-    // todo: delete
     // todo: user class: one to one; owner of the reality (name email phone)
     @Transactional
     public void addReality(Reality reality) {
@@ -82,10 +85,15 @@ public class RealityService {
     public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
         Optional<Reality> realityInDbOpt = realityRepository.findById(realityId);
         if (realityInDbOpt.isPresent()) {
-            reality.setId(realityInDbOpt.get().getId());
-            reality = realityRepository.save(reality);
-            mediaRepository.saveAll(reality.getMedias());
-            log.info("Updated the reality with the current id.");
+            Reality realityInDb = realityInDbOpt.get();
+            realityInDb.setId(realityId);
+            realityInDb.setType(reality.getType());
+            realityInDb.setLocation(reality.getLocation());
+            realityInDb.setPrice(reality.getPrice());
+            realityInDb.setRooms(reality.getRooms());
+            realityInDb.setArea(reality.getArea());
+            realityInDb.setDescription(reality.getDescription());
+            log.info("Updated the reality (not the media yet) with the current id.");
         }
         else {
             log.error("Could not find reality with this id.");

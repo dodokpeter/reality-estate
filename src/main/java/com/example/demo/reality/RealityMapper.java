@@ -6,15 +6,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class RealityMapper {
+public interface RealityMapper {
 
-    private List<MediaDTO> mapMedias(List<Media> medias) {
+    private static MediaDTO mapMedia(Media media) {
+        return new MediaDTO(
+                media.getUrl(),
+                media.getType()
+        );
+    }
+
+    private static List<MediaDTO> mapMedias(List<Media> medias) {
         return medias.stream()
-                .map(m -> new MediaDTO(m.getUrl(), m.getType()))
+                .map(RealityMapper::mapMedia)
                 .toList();
     }
 
-    RealityDTO manualMapper(Reality reality) {
+    static RealityDTO manualMapper(Reality reality) {
         return new RealityDTO(
                 reality.getId(),
                 reality.getType(),
@@ -23,11 +30,12 @@ public class RealityMapper {
                 reality.getRooms(),
                 reality.getArea(),
                 reality.getDescription(),
-                mapMedias(reality.getMedias())
+                mapMedias(reality.getMedias()),
+                mapMedia(reality.getMedias().getFirst())
         );
     }
 
-    List<RealityDTO> manualListMapper(List<Reality> realityList) {
+    static List<RealityDTO> manualListMapper(List<Reality> realityList) {
         return realityList.stream()
                 .map(r -> new RealityDTO(
                         r.getId(),
@@ -37,11 +45,9 @@ public class RealityMapper {
                         r.getRooms(),
                         r.getArea(),
                         r.getDescription(),
-                        mapMedias(r.getMedias())
+                        mapMedias(r.getMedias()),
+                        mapMedia(r.getMedias().getFirst())
                 ))
                 .collect(Collectors.toList());
     }
-
-    // todo: another method for that / diff class (realityMapper for all the mappers) -> mapstruct
-
 }

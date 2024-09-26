@@ -9,5 +9,6 @@ public record RealityDTO(
     int rooms,
     int area,
     String description,
-    List<MediaDTO> medias
+    List<MediaDTO> medias,
+    MediaDTO previewImage
 ) {}

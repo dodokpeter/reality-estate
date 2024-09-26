@@ -20,21 +20,18 @@ public class RealityService {
 
     private final RealityRepository realityRepository;
     private final MediaRepository mediaRepository;
-    private final RealityMapper realityMapper;
-
     // todo: delete media
-
 
     // todo: HEXAGONAL architecture
     public List<RealityDTO> getRealities() {
         log.info("Returning the list of realities ...");
-        return realityMapper.manualListMapper(realityRepository.findAll());
+        return RealityMapper.manualListMapper(realityRepository.findAll());
     }
 
     public Page<RealityDTO> getRealitiesPaginated(Pageable page) {
         log.info("Returning the list of PAGINATED realities ...");
         Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());
-        List<RealityDTO> realities = realityMapper.manualListMapper(realityRepository.findAll(realityPage).toList());
+        List<RealityDTO> realities = RealityMapper.manualListMapper(realityRepository.findAll(realityPage).toList());
         return new PageImpl<>(realities);
     }
 
@@ -43,7 +40,7 @@ public class RealityService {
 
         Optional<? extends Reality> realityInDb = realityRepository.findById(realityId);
         if (realityInDb.isPresent()) {
-            return (ResponseEntity<T>) ResponseEntity.ok(realityMapper.manualMapper(realityInDb.get()));
+            return (ResponseEntity<T>) ResponseEntity.ok(RealityMapper.manualMapper(realityInDb.get()));
         }
 
         log.error("Could not find reality with id: {}", realityId);

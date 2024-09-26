@@ -43,7 +43,6 @@ public class RealityController {
         realityService.addReality(reality);
     }
 
-    // todo: why the 500 ?
     @PostMapping( "/{realityId}")
     public void updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
         realityService.updateReality(reality, realityId);

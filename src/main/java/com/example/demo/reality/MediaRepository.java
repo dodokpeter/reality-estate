@@ -1,0 +1,6 @@
+package com.example.demo.reality;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MediaRepository extends JpaRepository<Media, Long> {
+}

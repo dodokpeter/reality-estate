@@ -1,7 +1,7 @@
 package com.example.demo.reality;
 
+import com.example.demo.entities.Reality;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 // todo 5: diff between jpa and crud ?

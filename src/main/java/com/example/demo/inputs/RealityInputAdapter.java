@@ -1,5 +1,10 @@
-package com.example.demo.reality;
+package com.example.demo.inputs;
 
+import com.example.demo.entities.Reality;
+import com.example.demo.entities.RealityDTO;
+import com.example.demo.reality.RealityNotFoundException;
+import com.example.demo.reality.RealityService;
+import domain.ports.RealitiesInputPort;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping(path="api/v1/realities")
-public class RealityController {
+public class RealityInputAdapter {
 
-    private final RealityService realityService;
+    private final RealitiesInputPort realitiesInputPort;
 
     @GetMapping
     public List<RealityDTO> getRealities() {
@@ -23,11 +28,11 @@ public class RealityController {
 
     @GetMapping("/paginated")
     public Page<RealityDTO> getPage(Pageable page) {
-        return realityService.getRealitiesPaginated(page);
+        return realityService.getPage(page);
     }
 
     @GetMapping("/{realityId}")
-    public ResponseEntity<String> getReality(@PathVariable Long realityId) {
+    public ResponseEntity<String> getRealityById(@PathVariable Long realityId) {
         try {
             return realityService.getRealityById(realityId);
         }

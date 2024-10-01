@@ -1,4 +1,4 @@
-package com.example.demo.reality;
+package com.example.demo.entities;
 import java.util.List;
 
 public record RealityDTO(

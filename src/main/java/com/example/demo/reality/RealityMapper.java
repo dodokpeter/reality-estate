@@ -1,5 +1,9 @@
 package com.example.demo.reality;
 
+import com.example.demo.entities.Media;
+import com.example.demo.entities.MediaDTO;
+import com.example.demo.entities.Reality;
+import com.example.demo.entities.RealityDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

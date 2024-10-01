@@ -1,5 +1,9 @@
 package com.example.demo.reality;
 
+import com.example.demo.entities.Reality;
+import com.example.demo.entities.RealityDTO;
+import com.example.demo.ports.EditRealities;
+import com.example.demo.ports.RetrieveRealitiesOutputPort;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +20,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class RealityService {
+public class RealityService implements RetrieveRealitiesOutputPort, EditRealities {
 
     private final RealityRepository realityRepository;
     private final MediaRepository mediaRepository;
@@ -28,14 +32,20 @@ public class RealityService {
         return RealityMapper.manualListMapper(realityRepository.findAll());
     }
 
-    public Page<RealityDTO> getRealitiesPaginated(Pageable page) {
+    // todo: how are pages mapped to pages w a diff object (so the request is saved)
+    // todo: map to DTO
+    public Page<RealityDTO> getPage(Pageable page) {
+//        RetrieveRealitiesOutputPort.getRealities()
         log.info("Returning the list of PAGINATED realities ...");
         Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());
-        List<RealityDTO> realities = RealityMapper.manualListMapper(realityRepository.findAll(realityPage).toList());
-        return new PageImpl<>(realities);
+
+        Page<Reality> realities = realityRepository.findAll(page);
+        return null;
+//        List<RealityDTO> realities = RealityMapper.manualListMapper(realityRepository.findAll(realityPage).toList());
+//        return new PageImpl<>(realities);
     }
 
-    public <T> ResponseEntity<T> getRealityById(long realityId) throws RealityNotFoundException {
+    public <T> ResponseEntity<T> getRealityById(Long realityId) throws RealityNotFoundException {
         log.info("Searching for the repository with the provided id ...");
 
         Optional<? extends Reality> realityInDb = realityRepository.findById(realityId);

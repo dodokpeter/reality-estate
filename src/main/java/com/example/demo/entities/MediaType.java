@@ -1,4 +1,4 @@
-package com.example.demo.reality;
+package com.example.demo.entities;
 
 public enum MediaType {
     IMAGE, VIDEO

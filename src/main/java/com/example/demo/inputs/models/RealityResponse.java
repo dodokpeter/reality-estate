@@ -1,7 +1,9 @@
-package com.example.demo.entities;
+package com.example.demo.inputs.models;
+import com.example.demo.entities.MediaDTO;
+
 import java.util.List;
 
-public record RealityDTO(
+public record RealityResponse(
     Long id,
     String type,
     String location,

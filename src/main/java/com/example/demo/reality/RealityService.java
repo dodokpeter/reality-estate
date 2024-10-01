@@ -1,14 +1,13 @@
 package com.example.demo.reality;
 
 import com.example.demo.entities.Reality;
-import com.example.demo.entities.RealityDTO;
+import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.ports.EditRealities;
 import com.example.demo.ports.RetrieveRealitiesOutputPort;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +26,14 @@ public class RealityService implements RetrieveRealitiesOutputPort, EditRealitie
     // todo: delete media
 
     // todo: HEXAGONAL architecture
-    public List<RealityDTO> getRealities() {
+    public List<RealityResponse> getRealities() {
         log.info("Returning the list of realities ...");
         return RealityMapper.manualListMapper(realityRepository.findAll());
     }
 
     // todo: how are pages mapped to pages w a diff object (so the request is saved)
     // todo: map to DTO
-    public Page<RealityDTO> getPage(Pageable page) {
+    public Page<RealityResponse> getPage(Pageable page) {
 //        RetrieveRealitiesOutputPort.getRealities()
         log.info("Returning the list of PAGINATED realities ...");
         Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());

@@ -4,6 +4,7 @@ import com.example.demo.entities.RealityEntity;
 import com.example.demo.entities.RealityDTO;
 import com.example.demo.reality.RealityNotFoundException;
 import com.example.demo.reality.RealityService;
+import domain.models.Reality;
 import domain.ports.RealitiesInputPort;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.example.demo.reality.RealityMapper.mapMedias;
 
 @AllArgsConstructor
 @RestController
@@ -23,7 +27,19 @@ public class RealityInputAdapter {
 
     @GetMapping
     public List<RealityDTO> getRealities() {
-        return realityService.getRealities();
+        List<Reality> realities = realitiesInputPort.getRealities();
+        return realities.parallelStream().map(reality -> new RealityDTO(
+                        reality.getId(),
+                        reality.getType(),
+                        reality.getLocation(),
+                        reality.getPrice(),
+                        reality.getRooms(),
+                        reality.getArea(),
+                        reality.getDescription(),
+                        null,
+                        null
+                ))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/paginated")

@@ -1,9 +1,13 @@
 package domain.models;
 
 import com.example.demo.entities.Media;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class Reality {
     private Long id;
 

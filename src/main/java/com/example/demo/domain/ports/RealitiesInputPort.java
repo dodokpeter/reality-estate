@@ -1,6 +1,6 @@
-package domain.ports;
+package com.example.demo.domain.ports;
 
-import domain.models.Reality;
+import com.example.demo.domain.models.Reality;
 
 import java.util.List;
 

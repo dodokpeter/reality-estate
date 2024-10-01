@@ -1,6 +1,7 @@
-package domain.models;
+package com.example.demo.domain.models;
 
 import com.example.demo.entities.Media;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Reality {
     private Long id;
 

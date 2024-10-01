@@ -1,5 +1,6 @@
-package com.example.demo.entities;
+package com.example.demo.outputs.adapters.entities;
 
+import com.example.demo.entities.Media;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

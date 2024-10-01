@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "RealitiesTable")
-public class Reality {
+public class RealityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

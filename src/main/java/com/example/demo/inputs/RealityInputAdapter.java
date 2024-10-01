@@ -1,6 +1,6 @@
 package com.example.demo.inputs;
 
-import com.example.demo.entities.Reality;
+import com.example.demo.entities.RealityEntity;
 import com.example.demo.entities.RealityDTO;
 import com.example.demo.reality.RealityNotFoundException;
 import com.example.demo.reality.RealityService;

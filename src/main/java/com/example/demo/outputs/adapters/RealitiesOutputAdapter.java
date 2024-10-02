@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -34,5 +35,14 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort {
         List<RealityEntity> realityEntityList = realities.getContent();
         List<Reality> realityList = RealityMapper.mapRealityEntityListToRealityList(realityEntityList);
         return new PageImpl<>(realityList, page, realityList.size());
+    }
+
+    @Override
+    public Reality getRealityById(Long id) {
+      Optional<RealityEntity> realityOptional = realityRepository.findById(id);
+     if (realityOptional.isPresent()) {
+         return RealityMapper.mapRealityEntityToReality(realityOptional.get());
+     }else
+         return null;
     }
 }

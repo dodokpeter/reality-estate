@@ -10,4 +10,6 @@ import java.util.List;
 public interface RealitiesInputPort {
     List<Reality> getRealities();
     Page<RealityResponse> getRealitiesByPage(Pageable page);
+    Reality getRealityById(Long id);
+
 }

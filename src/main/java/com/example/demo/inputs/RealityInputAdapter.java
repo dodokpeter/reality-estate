@@ -44,15 +44,10 @@ public class RealityInputAdapter {
     }
 
     @GetMapping("/{realityId}")
-    public ResponseEntity<String> getRealityById(@PathVariable Long realityId) {
-        try {
-            return realityService.getRealityById(realityId);
-        }
-        catch (RealityNotFoundException e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-        }
+    public  Reality getRealityById(@PathVariable Long realityId) {
+
+            return realitiesInputPort.getRealityById(realityId);
+
     }
 
     @PostMapping()

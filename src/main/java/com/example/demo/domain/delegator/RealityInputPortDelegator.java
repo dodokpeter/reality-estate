@@ -42,4 +42,11 @@ public class RealityInputPortDelegator implements RealitiesInputPort {
 //        List<RealityDTO> realities = RealityMapper.manualListMapper(realityRepository.findAll(realityPage).toList());
 //        return new PageImpl<>(realities);
     }
+
+    @Override
+    public Reality getRealityById(Long id) {
+        Reality reality =  realitiesOutputPort.getRealitiesById(id);
+        return reality;
+
+    }
 }

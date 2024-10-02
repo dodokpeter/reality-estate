@@ -2,8 +2,9 @@ package com.example.demo.reality;
 
 import com.example.demo.entities.Media;
 import com.example.demo.entities.MediaDTO;
-import com.example.demo.entities.Reality;
+import com.example.demo.domain.models.Reality;
 import com.example.demo.inputs.models.RealityResponse;
+import com.example.demo.outputs.adapters.entities.RealityEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,6 +23,21 @@ public interface RealityMapper {
     private static List<MediaDTO> mapMedias(List<Media> medias) {
         return medias.stream()
                 .map(RealityMapper::mapMedia)
+                .toList();
+    }
+
+    static Reality mapRealityEntityToReality(RealityEntity realityEntity) {
+        return new Reality(realityEntity.getId(),
+                realityEntity.getType(),
+                realityEntity.getLocation(),
+                realityEntity.getPrice(),
+                realityEntity.getRooms(),
+                realityEntity.getArea(),
+                realityEntity.getDescription(), realityEntity.getMedias());
+    }
+
+    static List<Reality> mapRealityEntityListToRealityList(List<RealityEntity> realities) {
+        return realities.stream().map(RealityMapper::mapRealityEntityToReality)
                 .toList();
     }
 

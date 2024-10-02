@@ -40,7 +40,7 @@ public class RealityInputAdapter {
 
     @GetMapping("/paginated")
     public Page<RealityResponse> getPage(Pageable page) {
-        return realityService.getPage(page);
+        return realitiesInputPort.getRealitiesByPage(page);
     }
 
     @GetMapping("/{realityId}")

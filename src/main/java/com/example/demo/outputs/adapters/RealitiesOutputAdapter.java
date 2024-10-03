@@ -41,9 +41,9 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort {
     @Override
     public Reality getRealityById(Long id) {
       Optional<RealityEntity> realityOptional = realityRepository.findById(id);
-     if (realityOptional.isPresent()) {
+      if (realityOptional.isPresent()) {
          return RealityMapper.mapRealityEntityToReality(realityOptional.get());
-     }else
+      } else
          return null;
     }
 }

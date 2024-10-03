@@ -36,7 +36,7 @@ public class RealityInputPortDelegator implements RealitiesInputPort {
 
     @Override
     public Reality getRealityById(Long id) {
-        Reality reality =  realitiesOutputPort.getRealitiesById(id);
+        Reality reality = realitiesOutputPort.getRealityById(id);
         return reality;
 
     }

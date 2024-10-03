@@ -49,6 +49,7 @@ public class RealityInputAdapter {
     @GetMapping("/{realityId}")
     public  Reality getRealityById(@PathVariable Long realityId) {
 
+
             return realitiesInputPort.getRealityById(realityId);
 
     }

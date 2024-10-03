@@ -28,19 +28,10 @@ public class RealityInputPortDelegator implements RealitiesInputPort {
         return realitiesOutputPort.getRealities();
     }
 
-    // todo: how are pages mapped to pages w a diff object (so the request is saved)
-    // todo: map to DTO
-
     @Override
-    public Page<RealityResponse> getRealitiesByPage(Pageable page) {
-//        RetrieveRealitiesOutputPort.getRealities()
+    public Page<Reality> getRealitiesByPage(Pageable page) {
         log.info("Returning the list of PAGINATED realities ...");
-        Pageable realityPage = PageRequest.of(page.getPageNumber(), page.getPageSize());
-
-        Page<Reality> realities = realitiesOutputPort.getRealitiesByPage(page);
-        return null;
-//        List<RealityDTO> realities = RealityMapper.manualListMapper(realityRepository.findAll(realityPage).toList());
-//        return new PageImpl<>(realities);
+        return realitiesOutputPort.getRealitiesByPage(page);
     }
 
     @Override

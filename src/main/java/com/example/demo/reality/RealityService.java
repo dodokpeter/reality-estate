@@ -28,7 +28,7 @@ public class RealityService implements RetrieveRealitiesOutputPort, EditRealitie
     // todo: HEXAGONAL architecture
     public List<RealityResponse> getRealities() {
         log.info("Returning the list of realities ...");
-        return RealityMapper.manualListMapper(realityRepository.findAll());
+        return RealityMapper.mapRealityListToRealityResponseList(realityRepository.findAll());
     }
 
     // todo: how are pages mapped to pages w a diff object (so the request is saved)
@@ -49,7 +49,7 @@ public class RealityService implements RetrieveRealitiesOutputPort, EditRealitie
 
         Optional<? extends Reality> realityInDb = realityRepository.findById(realityId);
         if (realityInDb.isPresent()) {
-            return (ResponseEntity<T>) ResponseEntity.ok(RealityMapper.manualMapper(realityInDb.get()));
+            return (ResponseEntity<T>) ResponseEntity.ok(RealityMapper.mapRealityToRealityResponse(realityInDb.get()));
         }
 
         log.error("Could not find reality with id: {}", realityId);

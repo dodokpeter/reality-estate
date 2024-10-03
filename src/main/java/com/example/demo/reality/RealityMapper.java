@@ -41,7 +41,7 @@ public interface RealityMapper {
                 .toList();
     }
 
-    static RealityResponse manualMapper(Reality reality) {
+    private static RealityResponse realityEntityToRealityResponse(RealityEntity reality) {
         return new RealityResponse(
                 reality.getId(),
                 reality.getType(),
@@ -55,19 +55,27 @@ public interface RealityMapper {
         );
     }
 
-    static List<RealityResponse> manualListMapper(List<Reality> realityList) {
+    static List<RealityResponse> mapRealityEntityListToRealityResponseList(List<RealityEntity> realities) {
+        return realities.stream().map(RealityMapper::realityEntityToRealityResponse).toList();
+    }
+
+    static RealityResponse mapRealityToRealityResponse(Reality reality) {
+        return new RealityResponse(
+                reality.getId(),
+                reality.getType(),
+                reality.getLocation(),
+                reality.getPrice(),
+                reality.getRooms(),
+                reality.getArea(),
+                reality.getDescription(),
+                mapMedias(reality.getMedias()),
+                mapMedia(reality.getMedias().getFirst())
+        );
+    }
+
+    static List<RealityResponse> mapRealityListToRealityResponseList(List<Reality> realityList) {
         return realityList.stream()
-                .map(r -> new RealityResponse(
-                        r.getId(),
-                        r.getType(),
-                        r.getLocation(),
-                        r.getPrice(),
-                        r.getRooms(),
-                        r.getArea(),
-                        r.getDescription(),
-                        mapMedias(r.getMedias()),
-                        mapMedia(r.getMedias().getFirst())
-                ))
+                .map(RealityMapper::mapRealityToRealityResponse)
                 .collect(Collectors.toList());
     }
 }

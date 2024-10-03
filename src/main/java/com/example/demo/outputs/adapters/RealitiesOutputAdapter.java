@@ -1,5 +1,6 @@
 package com.example.demo.outputs.adapters;
 
+import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.outputs.adapters.entities.RealityEntity;
 import com.example.demo.reality.RealityMapper;
 import com.example.demo.reality.RealityRepository;

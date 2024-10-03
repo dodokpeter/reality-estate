@@ -1,14 +1,14 @@
 package com.example.demo.inputs;
 
 import com.example.demo.inputs.models.RealityResponse;
+import com.example.demo.reality.RealityMapper;
 import com.example.demo.reality.RealityNotFoundException;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.RealitiesInputPort;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +40,10 @@ public class RealityInputAdapter {
 
     @GetMapping("/paginated")
     public Page<RealityResponse> getPage(Pageable page) {
-        return realitiesInputPort.getRealitiesByPage(page);
+        Page<Reality> realityPage = realitiesInputPort.getRealitiesByPage(page);
+        List<Reality> realityList = realityPage.getContent();
+        List<RealityResponse> realityResponseList = RealityMapper.mapRealityListToRealityResponseList(realityList);
+        return new PageImpl<>(realityResponseList, page, realityResponseList.size());
     }
 
     @GetMapping("/{realityId}")

@@ -1,4 +1,4 @@
-package com.example.demo.outputs.adapters;
+package com.example.demo.outputs;
 
 import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.UserOutputPort;

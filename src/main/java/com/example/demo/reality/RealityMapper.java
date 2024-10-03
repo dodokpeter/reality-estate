@@ -4,7 +4,7 @@ import com.example.demo.entities.Media;
 import com.example.demo.entities.MediaDTO;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.inputs.models.RealityResponse;
-import com.example.demo.outputs.adapters.entities.RealityEntity;
+import com.example.demo.outputs.entities.RealityEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

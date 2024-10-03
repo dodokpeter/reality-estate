@@ -2,6 +2,8 @@ package com.example.demo.reality;
 
 import com.example.demo.entities.Reality;
 import com.example.demo.inputs.models.RealityResponse;
+import com.example.demo.outputs.repositories.MediaRepository;
+import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.ports.EditRealities;
 import com.example.demo.ports.RetrieveRealitiesOutputPort;
 import jakarta.transaction.Transactional;

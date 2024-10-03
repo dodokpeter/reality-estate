@@ -1,4 +1,4 @@
-package com.example.demo.reality;
+package com.example.demo.outputs.repositories;
 
 import com.example.demo.entities.Media;
 import org.springframework.data.jpa.repository.JpaRepository;

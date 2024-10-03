@@ -1,9 +1,8 @@
-package com.example.demo.outputs.adapters;
+package com.example.demo.outputs;
 
-import com.example.demo.inputs.models.RealityResponse;
-import com.example.demo.outputs.adapters.entities.RealityEntity;
+import com.example.demo.outputs.entities.RealityEntity;
 import com.example.demo.reality.RealityMapper;
-import com.example.demo.reality.RealityRepository;
+import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.RealitiesOutputPort;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

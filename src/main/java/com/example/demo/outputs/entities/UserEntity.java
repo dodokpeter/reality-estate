@@ -1,4 +1,4 @@
-package com.example.demo.outputs.adapters.entities;
+package com.example.demo.outputs.entities;
 
 import com.example.demo.entities.Media;
 import jakarta.persistence.*;

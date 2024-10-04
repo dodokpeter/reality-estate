@@ -2,9 +2,8 @@ package com.example.demo.outputs;
 
 import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.UserOutputPort;
-import com.example.demo.reality.RealityMapper;
 import com.example.demo.user.UserMapper;
-import com.example.demo.user.UserRepository;
+import com.example.demo.outputs.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -36,6 +36,17 @@ public interface RealityMapper {
                 realityEntity.getDescription(), realityEntity.getMedias());
     }
 
+    static RealityEntity mapRealityToRealityEntity(Reality reality) {
+        return new RealityEntity(reality.getId(),
+                reality.getType(),
+                reality.getLocation(),
+                reality.getPrice(),
+                reality.getRooms(),
+                reality.getArea(),
+                reality.getDescription(), reality.getMedias());
+    }
+
+
     static List<Reality> mapRealityEntityListToRealityList(List<RealityEntity> realities) {
         return realities.stream().map(RealityMapper::mapRealityEntityToReality)
                 .toList();

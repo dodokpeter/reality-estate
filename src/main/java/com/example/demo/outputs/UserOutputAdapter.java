@@ -15,7 +15,6 @@ public class UserOutputAdapter implements UserOutputPort {
 
     private final UserRepository userRepository;
 
-
     @Override
     public List<User> getUsers() {
         var users = userRepository.findAll();

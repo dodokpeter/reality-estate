@@ -14,13 +14,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
-
 public class UserInputPortDelegator implements UserInputPort {
+
     private UserOutputPort userOutputPort;
+    
     @Override
     public List<User> getUsers() {
         return userOutputPort.getUsers();
     }
-
 
 }

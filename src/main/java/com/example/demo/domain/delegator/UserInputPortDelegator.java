@@ -3,7 +3,6 @@ package com.example.demo.domain.delegator;
 import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.UserInputPort;
 import com.example.demo.domain.ports.UserOutputPort;
-import com.example.demo.user.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

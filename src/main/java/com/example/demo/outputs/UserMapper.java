@@ -1,7 +1,8 @@
-package com.example.demo.user;
+package com.example.demo.outputs;
 
 
 import com.example.demo.domain.models.User;
+import com.example.demo.inputs.models.UserResponse;
 import com.example.demo.outputs.entities.UserEntity;
 import org.springframework.stereotype.Component;
 
@@ -22,5 +23,17 @@ public interface UserMapper {
     static List<User> mapUserEntityListToUserList(List<UserEntity> users) {
         return users.stream().map(UserMapper::mapUserEntityListToUser)
                 .toList();
+    }
+
+    static UserResponse mapUserToUserResponse(User user) {
+        return new UserResponse(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhoneNumber());
+
+
+    }
+
+
+
+  static List<UserResponse> mapUserListToUserReponse(List<User> users) {
+        return users.stream().map(UserMapper::mapUserToUserResponse).toList();
     }
 }

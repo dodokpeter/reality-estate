@@ -1,5 +1,6 @@
 package com.example.demo.inputs;
 
+import com.example.demo.domain.ports.CreateRealitiesInputPort;
 import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.reality.RealityMapper;
 import com.example.demo.reality.RealityNotFoundException;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class RealityInputAdapter {
 
     private final RealitiesInputPort realitiesInputPort;
+    private final CreateRealitiesInputPort createRealitiesInputPort;
 
     @GetMapping
     public List<RealityResponse> getRealities() {
@@ -51,9 +53,11 @@ public class RealityInputAdapter {
         return RealityMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
     }
 
+    // todo: finish add + update
+
     @PostMapping()
     public void addReality(@RequestBody Reality reality) {
-        realityService.addReality(reality);
+        createRealitiesInputPort.addReality(reality);
     }
 
     @PostMapping( "/{realityId}")

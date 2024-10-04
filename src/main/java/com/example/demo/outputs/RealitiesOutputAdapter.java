@@ -1,11 +1,13 @@
 package com.example.demo.outputs;
 
+import com.example.demo.domain.ports.CreateRealitiesOutputPort;
 import com.example.demo.outputs.entities.RealityEntity;
 import com.example.demo.reality.RealityMapper;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.RealitiesOutputPort;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +19,8 @@ import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-public class RealitiesOutputAdapter implements RealitiesOutputPort {
+@Slf4j
+public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealitiesOutputPort {
 
     private final RealityRepository realityRepository;
 
@@ -43,5 +46,18 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort {
          return RealityMapper.mapRealityEntityToReality(realityOptional.get());
       } else
          return null;
+    }
+
+    @Override
+    public void addReality(Reality reality) {
+        log.info("Adding a new reality to the database ...");
+        RealityEntity realityEntity = RealityMapper.mapRealityToRealityEntity(reality);
+        realityRepository.save(realityEntity);
+
+        // todo: implement medias
+//        reality.getMedias().forEach(
+//                media -> media.setReality(realityNew)
+//        );
+//        mediaRepository.saveAll(reality.getMedias());
     }
 }

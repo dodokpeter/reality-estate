@@ -1,6 +1,7 @@
 package com.example.demo.domain.delegator;
 
 import com.example.demo.domain.models.Reality;
+import com.example.demo.domain.ports.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.RealitiesInputPort;
 import com.example.demo.domain.ports.RealitiesOutputPort;
 import com.example.demo.inputs.models.RealityResponse;
@@ -18,9 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
-public class RealityInputPortDelegator implements RealitiesInputPort {
+public class RealityInputPortDelegator implements RealitiesInputPort, CreateRealitiesInputPort {
 
     private RealitiesOutputPort realitiesOutputPort;
+    private CreateRealitiesInputPort createRealitiesOutputPort;
 
 
     @Override
@@ -39,5 +41,10 @@ public class RealityInputPortDelegator implements RealitiesInputPort {
         Reality reality = realitiesOutputPort.getRealityById(id);
         return reality;
 
+    }
+
+    @Override
+    public void addReality(Reality reality) {
+        createRealitiesOutputPort.addReality(reality);
     }
 }

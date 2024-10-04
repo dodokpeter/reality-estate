@@ -1,11 +1,13 @@
 package com.example.demo.outputs;
 
 import com.example.demo.domain.ports.CreateRealitiesOutputPort;
+import com.example.demo.domain.ports.UpdateRealitiesOutputPort;
 import com.example.demo.outputs.entities.RealityEntity;
 import com.example.demo.reality.RealityMapper;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.RealitiesOutputPort;
+import com.example.demo.reality.RealityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,7 +22,7 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealitiesOutputPort {
+public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealitiesOutputPort, UpdateRealitiesOutputPort {
 
     private final RealityRepository realityRepository;
 
@@ -59,5 +61,25 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
 //                media -> media.setReality(realityNew)
 //        );
 //        mediaRepository.saveAll(reality.getMedias());
+    }
+
+    @Override
+    public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
+        Optional<RealityEntity> realityInDbOpt = realityRepository.findById(realityId);
+        if (realityInDbOpt.isPresent()) {
+            RealityEntity realityInDb = realityInDbOpt.get();
+            realityInDb.setId(realityId);
+            realityInDb.setType(reality.getType());
+            realityInDb.setLocation(reality.getLocation());
+            realityInDb.setPrice(reality.getPrice());
+            realityInDb.setRooms(reality.getRooms());
+            realityInDb.setArea(reality.getArea());
+            realityInDb.setDescription(reality.getDescription());
+            log.info("Updated the reality (not the media yet) with the current id.");
+        }
+        else {
+            log.error("Could not find reality with this id.");
+            throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
+        }
     }
 }

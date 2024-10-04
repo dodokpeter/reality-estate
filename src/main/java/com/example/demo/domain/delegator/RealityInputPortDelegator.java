@@ -4,12 +4,11 @@ import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.RealitiesInputPort;
 import com.example.demo.domain.ports.RealitiesOutputPort;
-import com.example.demo.inputs.models.RealityResponse;
+import com.example.demo.domain.ports.UpdateRealitiesInputPort;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +18,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
-public class RealityInputPortDelegator implements RealitiesInputPort, CreateRealitiesInputPort {
+public class RealityInputPortDelegator implements RealitiesInputPort, CreateRealitiesInputPort, UpdateRealitiesInputPort {
 
     private RealitiesOutputPort realitiesOutputPort;
     private CreateRealitiesInputPort createRealitiesOutputPort;
+    private UpdateRealitiesInputPort updateRealitiesInputPort;
 
 
     @Override
@@ -46,5 +46,10 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     @Override
     public void addReality(Reality reality) {
         createRealitiesOutputPort.addReality(reality);
+    }
+
+    @Override
+    public void updateReality(Reality reality, Long realityId) {
+        updateRealitiesInputPort.updateReality(reality, realityId);
     }
 }

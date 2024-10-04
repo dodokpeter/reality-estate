@@ -1,6 +1,7 @@
 package com.example.demo.inputs;
 
 import com.example.demo.domain.ports.CreateRealitiesInputPort;
+import com.example.demo.domain.ports.UpdateRealitiesInputPort;
 import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.reality.RealityMapper;
 import com.example.demo.reality.RealityNotFoundException;
@@ -22,6 +23,7 @@ public class RealityInputAdapter {
 
     private final RealitiesInputPort realitiesInputPort;
     private final CreateRealitiesInputPort createRealitiesInputPort;
+    private final UpdateRealitiesInputPort updateRealitiesInputPort;
 
     @GetMapping
     public List<RealityResponse> getRealities() {
@@ -62,6 +64,6 @@ public class RealityInputAdapter {
 
     @PostMapping( "/{realityId}")
     public void updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
-        realityService.updateReality(reality, realityId);
+        updateRealitiesInputPort.updateReality(reality, realityId);
     }
 }

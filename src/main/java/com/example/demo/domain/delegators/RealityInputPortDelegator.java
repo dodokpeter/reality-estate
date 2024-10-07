@@ -1,10 +1,8 @@
 package com.example.demo.domain.delegators;
 
+import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.models.Reality;
-import com.example.demo.domain.ports.CreateRealitiesInputPort;
-import com.example.demo.domain.ports.RealitiesInputPort;
-import com.example.demo.domain.ports.RealitiesOutputPort;
-import com.example.demo.domain.ports.UpdateRealitiesInputPort;
+import com.example.demo.domain.ports.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,7 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
 
     private RealitiesOutputPort realitiesOutputPort;
     private CreateRealitiesInputPort createRealitiesOutputPort;
-    private UpdateRealitiesInputPort updateRealitiesInputPort;
+    private UpdateRealitiesOutputPort updateRealitiesOutputPort;
 
 
     @Override
@@ -49,7 +47,7 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     }
 
     @Override
-    public void updateReality(Reality reality, Long realityId) {
-        updateRealitiesInputPort.updateReality(reality, realityId);
+    public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
+        updateRealitiesOutputPort.updateReality(reality, realityId);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.inputs;
 
+import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.ports.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.UpdateRealitiesInputPort;
 import com.example.demo.inputs.mappers.RealityInputMapper;
@@ -51,7 +52,7 @@ public class RealityInputAdapter {
     }
 
     @PostMapping("/{realityId}")
-    public void updateReality(@RequestBody Reality reality, @PathVariable Long realityId) {
+    public void updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
         updateRealitiesInputPort.updateReality(reality, realityId);
     }
 }

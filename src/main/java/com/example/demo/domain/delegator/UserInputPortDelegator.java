@@ -1,6 +1,8 @@
 package com.example.demo.domain.delegator;
 
 import com.example.demo.domain.models.User;
+import com.example.demo.domain.ports.AddUserInputPort;
+import com.example.demo.domain.ports.AddUserOutputPort;
 import com.example.demo.domain.ports.UserInputPort;
 import com.example.demo.domain.ports.UserOutputPort;
 import lombok.AllArgsConstructor;
@@ -17,10 +19,15 @@ import java.util.List;
 public class UserInputPortDelegator implements UserInputPort {
 
     private UserOutputPort userOutputPort;
-    
+    private AddUserOutputPort addUserOutputPort;
+
     @Override
     public List<User> getUsers() {
         return userOutputPort.getUsers();
     }
 
+    @Override
+    public void addUser(User user) {
+        addUserOutputPort.addUser(user);
+    }
 }

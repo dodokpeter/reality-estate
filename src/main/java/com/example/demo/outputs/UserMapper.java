@@ -31,9 +31,16 @@ public interface UserMapper {
 
     }
 
-
-
-  static List<UserResponse> mapUserListToUserReponse(List<User> users) {
+    static List<UserResponse> mapUserListToUserReponse(List<User> users) {
         return users.stream().map(UserMapper::mapUserToUserResponse).toList();
+    }
+
+    static UserEntity mapUserToUserEntity(User user) {
+        return new UserEntity(user.getId(),
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPhoneNumber());
     }
 }

@@ -3,7 +3,8 @@ package com.example.demo.outputs;
 import com.example.demo.domain.ports.CreateRealitiesOutputPort;
 import com.example.demo.domain.ports.UpdateRealitiesOutputPort;
 import com.example.demo.outputs.entities.RealityEntity;
-import com.example.demo.reality.RealityMapper;
+import com.example.demo.inputs.mappers.RealityInputMapper;
+import com.example.demo.outputs.mappers.RealityOutputMapper;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.RealitiesOutputPort;
@@ -30,14 +31,14 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     @Override
     public List<Reality> getRealities() {
         var realities = realityRepository.findAll();
-        return RealityMapper.mapRealityEntityListToRealityList(realities);
+        return RealityOutputMapper.mapRealityEntityListToRealityList(realities);
     }
 
     @Override
     public Page<Reality> getRealitiesByPage(Pageable page) {
         Page<RealityEntity> realities = realityRepository.findAll(page);
         List<RealityEntity> realityEntityList = realities.getContent();
-        List<Reality> realityList = RealityMapper.mapRealityEntityListToRealityList(realityEntityList);
+        List<Reality> realityList = RealityOutputMapper.mapRealityEntityListToRealityList(realityEntityList);
         return new PageImpl<>(realityList, page, realityList.size());
     }
 
@@ -45,7 +46,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     public Reality getRealityById(Long id) {
       Optional<RealityEntity> realityOptional = realityRepository.findById(id);
       if (realityOptional.isPresent()) {
-         return RealityMapper.mapRealityEntityToReality(realityOptional.get());
+         return RealityOutputMapper.mapRealityEntityToReality(realityOptional.get());
       } else
          return null;
     }
@@ -53,7 +54,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     @Override
     public void addReality(Reality reality) {
         log.info("Adding a new reality to the database ...");
-        RealityEntity realityEntity = RealityMapper.mapRealityToRealityEntity(reality);
+        RealityEntity realityEntity = RealityOutputMapper.mapRealityToRealityEntity(reality);
         realityRepository.save(realityEntity);
 
         // todo: implement medias

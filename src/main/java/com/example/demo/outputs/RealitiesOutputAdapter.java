@@ -52,10 +52,11 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     }
 
     @Override
-    public void addReality(Reality reality) {
+    public Reality addReality(Reality reality) {
         log.info("Adding a new reality to the database ...");
         RealityEntity realityEntity = RealityOutputMapper.mapRealityToRealityEntity(reality);
-        realityRepository.save(realityEntity);
+        RealityEntity saved = realityRepository.save(realityEntity);
+        return RealityOutputMapper.mapRealityEntityToReality(saved);
 
         // todo: implement medias
 //        reality.getMedias().forEach(

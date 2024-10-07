@@ -47,8 +47,9 @@ public class RealityInputAdapter {
     // todo: finish add + update
 
     @PostMapping()
-    public void addReality(@RequestBody Reality reality) {
-        createRealitiesInputPort.addReality(reality);
+    public RealityResponse addReality(@RequestBody Reality reality) {
+        Reality addedReality = createRealitiesInputPort.addReality(reality);
+        return RealityInputMapper.mapRealityToRealityResponse(addedReality);
     }
 
     @PostMapping("/{realityId}")

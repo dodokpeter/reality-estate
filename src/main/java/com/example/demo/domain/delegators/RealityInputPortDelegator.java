@@ -19,7 +19,7 @@ import java.util.List;
 public class RealityInputPortDelegator implements RealitiesInputPort, CreateRealitiesInputPort, UpdateRealitiesInputPort {
 
     private RealitiesOutputPort realitiesOutputPort;
-    private CreateRealitiesInputPort createRealitiesOutputPort;
+    private CreateRealitiesOutputPort createRealitiesOutputPort;
     private UpdateRealitiesOutputPort updateRealitiesOutputPort;
 
 
@@ -36,14 +36,12 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
 
     @Override
     public Reality getRealityById(Long id) {
-        Reality reality = realitiesOutputPort.getRealityById(id);
-        return reality;
-
+        return realitiesOutputPort.getRealityById(id);
     }
 
     @Override
-    public void addReality(Reality reality) {
-        createRealitiesOutputPort.addReality(reality);
+    public Reality addReality(Reality reality) {
+        return createRealitiesOutputPort.addReality(reality);
     }
 
     @Override

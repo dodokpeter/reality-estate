@@ -4,7 +4,6 @@ import com.example.demo.domain.ports.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.UpdateRealitiesInputPort;
 import com.example.demo.inputs.mappers.RealityInputMapper;
 import com.example.demo.inputs.models.RealityResponse;
-import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.RealitiesInputPort;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -28,8 +26,8 @@ public class RealityInputAdapter {
     @GetMapping
     public List<RealityResponse> getRealities() {
         List<Reality> realities = realitiesInputPort.getRealities();
-        List<RealityResponse> realityResponseList = RealityInputMapper.mapRealityListToRealityResponseList(realities);
-        return realityResponseList;
+        return RealityInputMapper.mapRealityListToRealityResponseList(realities);
+
     }
 
     @GetMapping("/paginated")
@@ -53,7 +51,7 @@ public class RealityInputAdapter {
     }
 
     @PostMapping("/{realityId}")
-    public void updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
+    public void updateReality(@RequestBody Reality reality, @PathVariable Long realityId) {
         updateRealitiesInputPort.updateReality(reality, realityId);
     }
 }

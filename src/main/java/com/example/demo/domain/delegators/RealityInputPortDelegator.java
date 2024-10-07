@@ -1,4 +1,4 @@
-package com.example.demo.domain.delegator;
+package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.CreateRealitiesInputPort;

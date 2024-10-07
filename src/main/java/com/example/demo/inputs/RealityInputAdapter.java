@@ -4,7 +4,7 @@ import com.example.demo.domain.ports.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.UpdateRealitiesInputPort;
 import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.reality.RealityMapper;
-import com.example.demo.reality.RealityNotFoundException;
+import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.RealitiesInputPort;
 import lombok.AllArgsConstructor;

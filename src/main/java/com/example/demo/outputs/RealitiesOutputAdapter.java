@@ -7,7 +7,7 @@ import com.example.demo.reality.RealityMapper;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.RealitiesOutputPort;
-import com.example.demo.reality.RealityNotFoundException;
+import com.example.demo.domain.exceptions.RealityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

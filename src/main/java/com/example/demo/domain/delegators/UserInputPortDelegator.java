@@ -1,7 +1,6 @@
-package com.example.demo.domain.delegator;
+package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.models.User;
-import com.example.demo.domain.ports.AddUserInputPort;
 import com.example.demo.domain.ports.AddUserOutputPort;
 import com.example.demo.domain.ports.UserInputPort;
 import com.example.demo.domain.ports.UserOutputPort;

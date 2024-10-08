@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public interface UserMapper {
-    static User mapUserEntityToUser(UserEntity userEntity) {
+public interface UserInputMapper {
+    static User mapUserEntityListToUser(UserEntity userEntity) {
         return new User(userEntity.getId(),
                 userEntity.getUsername(),
                 userEntity.getFirstName(),
@@ -21,7 +21,7 @@ public interface UserMapper {
     }
 
     static List<User> mapUserEntityListToUserList(List<UserEntity> users) {
-        return users.stream().map(UserMapper::mapUserEntityToUser)
+        return users.stream().map(UserInputMapper::mapUserEntityListToUser)
                 .toList();
     }
 
@@ -32,7 +32,7 @@ public interface UserMapper {
     }
 
     static List<UserResponse> mapUserListToUserReponse(List<User> users) {
-        return users.stream().map(UserMapper::mapUserToUserResponse).toList();
+        return users.stream().map(UserInputMapper::mapUserToUserResponse).toList();
     }
 
     static UserEntity mapUserToUserEntity(User user) {

@@ -7,5 +7,4 @@ import java.util.List;
 public interface UserInputPort {
     List<User> getUsers();
 
-    void addUser(User user);
 }

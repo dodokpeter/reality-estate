@@ -26,7 +26,8 @@ public class UserInputAdapter {
     }
 
     @PostMapping()
-    public void addUser(@RequestBody User user) {
-        addUserInputPort.addUser(user);
+    public UserResponse addUser(@RequestBody User user) {
+        User newUser = addUserInputPort.addUser(user);
+        return UserMapper.mapUserToUserResponse(newUser);
     }
 }

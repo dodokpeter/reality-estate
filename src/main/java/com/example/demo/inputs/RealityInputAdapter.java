@@ -52,8 +52,10 @@ public class RealityInputAdapter {
         return RealityInputMapper.mapRealityToRealityResponse(addedReality);
     }
 
+    // todo: add return values, add exception (if you try to add nonexisting), CAN BE LAUNCHED
     @PostMapping("/{realityId}")
-    public void updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
-        updateRealitiesInputPort.updateReality(reality, realityId);
+    public RealityResponse updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
+        Reality updatedReality = updateRealitiesInputPort.updateReality(reality, realityId);
+        return RealityInputMapper.mapRealityToRealityResponse(updatedReality);
     }
 }

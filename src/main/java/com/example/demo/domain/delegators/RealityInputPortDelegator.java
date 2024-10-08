@@ -45,7 +45,7 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     }
 
     @Override
-    public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
-        updateRealitiesOutputPort.updateReality(reality, realityId);
+    public Reality updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
+        return updateRealitiesOutputPort.updateReality(reality, realityId);
     }
 }

@@ -15,10 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
-public class UserInputPortDelegator implements UserInputPort {
+public class UserInputPortDelegator implements UserInputPort, AddUserOutputPort {
 
     private UserOutputPort userOutputPort;
     private AddUserOutputPort addUserOutputPort;
+
 
     @Override
     public List<User> getUsers() {
@@ -26,7 +27,7 @@ public class UserInputPortDelegator implements UserInputPort {
     }
 
     @Override
-    public void addUser(User user) {
-        addUserOutputPort.addUser(user);
+    public User addUser(User user) {
+      return addUserOutputPort.addUser(user);
     }
 }

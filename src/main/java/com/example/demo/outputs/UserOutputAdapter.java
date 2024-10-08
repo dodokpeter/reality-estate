@@ -26,6 +26,6 @@ public class UserOutputAdapter implements UserOutputPort , AddUserOutputPort {
     public User addUser(User user) {
         UserEntity userEntity = UserMapper.mapUserToUserEntity(user);
         UserEntity newUser = userRepository.save(userEntity);
-        return UserMapper.mapUserEntityListToUser(newUser);
+        return UserMapper.mapUserEntityToUser(newUser);
     }
 }

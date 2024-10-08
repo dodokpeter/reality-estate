@@ -10,7 +10,7 @@ import java.util.List;
 
 @Component
 public interface UserMapper {
-    static User mapUserEntityListToUser(UserEntity userEntity) {
+    static User mapUserEntityToUser(UserEntity userEntity) {
         return new User(userEntity.getId(),
                 userEntity.getUsername(),
                 userEntity.getFirstName(),
@@ -21,7 +21,7 @@ public interface UserMapper {
     }
 
     static List<User> mapUserEntityListToUserList(List<UserEntity> users) {
-        return users.stream().map(UserMapper::mapUserEntityListToUser)
+        return users.stream().map(UserMapper::mapUserEntityToUser)
                 .toList();
     }
 

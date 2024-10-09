@@ -56,4 +56,3 @@ public class RealityInputAdapter {
         return RealityInputMapper.mapRealityToRealityResponse(updatedReality);
     }
 }
-=

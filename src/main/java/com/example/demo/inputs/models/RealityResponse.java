@@ -1,5 +1,4 @@
 package com.example.demo.inputs.models;
-import com.example.demo.entities.MediaDTO;
 
 import java.util.List;
 
@@ -11,6 +10,5 @@ public record RealityResponse(
     int rooms,
     int area,
     String description,
-    List<MediaDTO> medias,
-    MediaDTO previewImage
+    List<MediaResponse> medias
 ) {}

@@ -9,9 +9,6 @@ import java.util.List;
 @Component
 public interface RealityOutputMapper {
 
-
-
-
     static Reality mapRealityEntityToReality(RealityEntity realityEntity) {
         return new Reality(realityEntity.getId(),
                 realityEntity.getType(),
@@ -19,17 +16,22 @@ public interface RealityOutputMapper {
                 realityEntity.getPrice(),
                 realityEntity.getRooms(),
                 realityEntity.getArea(),
-                realityEntity.getDescription(), realityEntity.getMedias());
+                realityEntity.getDescription(),
+                null
+//                realityEntity.getMedias()
+        );
     }
 
     static RealityEntity mapRealityToRealityEntity(Reality reality) {
-        return new RealityEntity(reality.getId(),
+        return new RealityEntity(
+                reality.getId(),
                 reality.getType(),
                 reality.getLocation(),
                 reality.getPrice(),
                 reality.getRooms(),
                 reality.getArea(),
-                reality.getDescription(), reality.getMedias());
+                reality.getDescription()
+        );
     }
 
 

@@ -13,19 +13,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
 public class RealityInputPortDelegator implements RealitiesInputPort, CreateRealitiesInputPort, UpdateRealitiesInputPort {
 
-    private RealitiesOutputPort realitiesOutputPort;
-    private CreateRealitiesOutputPort createRealitiesOutputPort;
-    private UpdateRealitiesOutputPort updateRealitiesOutputPort;
+    private final RealitiesOutputPort realitiesOutputPort;
+    private final CreateRealitiesOutputPort createRealitiesOutputPort;
+    private final UpdateRealitiesOutputPort updateRealitiesOutputPort;
 
 
     @Override
     public List<Reality> getRealities() {
-        return realitiesOutputPort.getRealities();
+        var realities = realitiesOutputPort.getRealities();
+        return realities;
     }
 
     @Override

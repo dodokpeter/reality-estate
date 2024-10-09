@@ -1,6 +1,7 @@
 package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.models.User;
+import com.example.demo.domain.ports.AddUserInputPort;
 import com.example.demo.domain.ports.AddUserOutputPort;
 import com.example.demo.domain.ports.UserInputPort;
 import com.example.demo.domain.ports.UserOutputPort;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
-public class UserInputPortDelegator implements UserInputPort, AddUserOutputPort {
+public class UserInputPortDelegator implements UserInputPort, AddUserInputPort {
 
     private UserOutputPort userOutputPort;
     private AddUserOutputPort addUserOutputPort;

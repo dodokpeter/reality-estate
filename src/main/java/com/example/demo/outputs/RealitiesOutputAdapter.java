@@ -66,7 +66,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     }
 
     @Override
-    public void updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
+    public Reality updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
         Optional<RealityEntity> realityInDbOpt = realityRepository.findById(realityId);
         if (realityInDbOpt.isPresent()) {
             RealityEntity realityInDb = realityInDbOpt.get();
@@ -78,6 +78,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
             realityInDb.setArea(reality.getArea());
             realityInDb.setDescription(reality.getDescription());
             log.info("Updated the reality (not the media yet) with the current id.");
+            return RealityOutputMapper.mapRealityEntityToReality(realityInDbOpt.get());
         }
         else {
             log.error("Could not find reality with this id.");

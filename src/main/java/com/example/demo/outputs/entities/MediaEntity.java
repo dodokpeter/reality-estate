@@ -24,6 +24,16 @@ public class MediaEntity {
     private String url;
     private MediaType mediaType;
 
+    @ManyToOne()
+    @JoinColumn(name = "realityId", referencedColumnName = "id")
+    private RealityEntity realityEntity;
+
+    public MediaEntity(Long id, String url, MediaType mediaType) {
+        this.id = id;
+        this.url = url;
+        this.mediaType = mediaType;
+    }
+
     @Override
     public String toString() {
         return "Media{" + "id=" + id + ", Url=" + url + ", MediaType=" + mediaType + '}';

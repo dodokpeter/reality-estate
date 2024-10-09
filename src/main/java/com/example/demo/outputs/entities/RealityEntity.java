@@ -27,7 +27,7 @@ public class RealityEntity {
     private int area;
     private String description;
 
-    @OneToMany(mappedBy = "reality", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "realityEntity", fetch = FetchType.LAZY)
     private List<MediaEntity> medias;
 
     @Override

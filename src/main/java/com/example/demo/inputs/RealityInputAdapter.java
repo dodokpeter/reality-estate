@@ -57,3 +57,4 @@ public class RealityInputAdapter {
         updateRealitiesInputPort.updateReality(reality, realityId);
     }
 }
+=

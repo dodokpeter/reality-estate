@@ -1,7 +1,11 @@
 package com.example.demo.outputs.repositories;
 
-import com.example.demo.entities.Media;
+import com.example.demo.domain.models.Media;
+import com.example.demo.outputs.entities.MediaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MediaRepository extends JpaRepository<Media, Long> {
+import java.util.List;
+
+public interface MediaRepository extends JpaRepository<MediaEntity, Long> {
+    List<MediaEntity> findAllById(Long id);
 }

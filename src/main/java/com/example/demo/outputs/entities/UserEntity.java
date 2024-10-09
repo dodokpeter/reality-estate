@@ -1,13 +1,10 @@
 package com.example.demo.outputs.entities;
 
-import com.example.demo.entities.Media;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -28,13 +25,6 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "Reality{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", price=" + firstName +
-                ", rooms=" + lastName +
-                ", area=" + email +
-                ", description='" + phoneNumber + '\'' +
-                '}';
+        return "User{" + " id=" + id + ", username='" + username + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", phoneNumber='" + phoneNumber + '\'' + '}';
     }
 }

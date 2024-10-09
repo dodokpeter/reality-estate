@@ -1,6 +1,5 @@
 package com.example.demo.domain.models;
 
-import com.example.demo.entities.Media;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

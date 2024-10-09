@@ -1,6 +1,6 @@
 package com.example.demo.inputs.mappers;
 
-import com.example.demo.entities.Media;
+import com.example.demo.domain.models.Media;
 import com.example.demo.entities.MediaDTO;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.inputs.models.RealityResponse;

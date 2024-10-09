@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.example.demo.domain.models;
 
 public enum MediaType {
     IMAGE, VIDEO

@@ -1,6 +1,6 @@
 package com.example.demo.outputs.entities;
 
-import com.example.demo.entities.Media;
+import com.example.demo.domain.models.Media;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

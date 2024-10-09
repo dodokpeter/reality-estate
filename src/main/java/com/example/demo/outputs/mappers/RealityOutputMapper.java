@@ -2,14 +2,12 @@ package com.example.demo.outputs.mappers;
 
 import com.example.demo.domain.models.Reality;
 import com.example.demo.outputs.entities.RealityEntity;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-public interface RealityOutputMapper {
+public class RealityOutputMapper {
 
-    static Reality mapRealityEntityToReality(RealityEntity realityEntity) {
+    public static Reality mapRealityEntityToReality(RealityEntity realityEntity) {
         return new Reality(realityEntity.getId(),
                 realityEntity.getType(),
                 realityEntity.getLocation(),
@@ -17,12 +15,11 @@ public interface RealityOutputMapper {
                 realityEntity.getRooms(),
                 realityEntity.getArea(),
                 realityEntity.getDescription(),
-                null
-//                realityEntity.getMedias()
+                MediaOutputMapper.mapMediaEntityToMediaList(realityEntity.getMedias())
         );
     }
 
-    static RealityEntity mapRealityToRealityEntity(Reality reality) {
+    public static RealityEntity mapRealityToRealityEntity(Reality reality) {
         return new RealityEntity(
                 reality.getId(),
                 reality.getType(),
@@ -30,12 +27,12 @@ public interface RealityOutputMapper {
                 reality.getPrice(),
                 reality.getRooms(),
                 reality.getArea(),
-                reality.getDescription()
+                reality.getDescription(),
+                MediaOutputMapper.mapMediaListToMediaEntityList(reality.getMedias())
         );
     }
 
-
-    static List<Reality> mapRealityEntityListToRealityList(List<RealityEntity> realities) {
+    public static List<Reality> mapRealityEntityListToRealityList(List<RealityEntity> realities) {
         return realities.stream().map(RealityOutputMapper::mapRealityEntityToReality)
                 .toList();
     }

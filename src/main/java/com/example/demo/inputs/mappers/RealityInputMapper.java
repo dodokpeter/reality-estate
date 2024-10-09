@@ -2,15 +2,13 @@ package com.example.demo.inputs.mappers;
 
 import com.example.demo.domain.models.Reality;
 import com.example.demo.inputs.models.RealityResponse;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-public interface RealityInputMapper {
+public class RealityInputMapper {
 
-    static RealityResponse mapRealityToRealityResponse(Reality reality) {
+    public static RealityResponse mapRealityToRealityResponse(Reality reality) {
         return new RealityResponse(
                 reality.getId(),
                 reality.getType(),
@@ -23,10 +21,9 @@ public interface RealityInputMapper {
         );
     }
 
-    static List<RealityResponse> mapRealityListToRealityResponseList(List<Reality> realityList) {
+    public static List<RealityResponse> mapRealityListToRealityResponseList(List<Reality> realityList) {
         return realityList.stream()
                 .map(RealityInputMapper::mapRealityToRealityResponse)
                 .collect(Collectors.toList());
     }
-
 }

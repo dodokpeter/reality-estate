@@ -4,6 +4,7 @@ import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.AddUserOutputPort;
 import com.example.demo.domain.ports.UserOutputPort;
 import com.example.demo.outputs.entities.UserEntity;
+import com.example.demo.outputs.mappers.UserOutputMapper;
 import com.example.demo.outputs.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,13 +20,13 @@ public class UserOutputAdapter implements UserOutputPort , AddUserOutputPort {
     @Override
     public List<User> getUsers() {
         var users = userRepository.findAll();
-        return UserMapper.mapUserEntityListToUserList(users);
+        return UserOutputMapper.mapUserEntityListToUserList(users);
     }
 
     @Override
     public User addUser(User user) {
-        UserEntity userEntity = UserMapper.mapUserToUserEntity(user);
+        UserEntity userEntity = UserOutputMapper.mapUserToUserEntity(user);
         UserEntity newUser = userRepository.save(userEntity);
-        return UserMapper.mapUserEntityToUser(newUser);
+        return UserOutputMapper.mapUserEntityToUser(newUser);
     }
 }

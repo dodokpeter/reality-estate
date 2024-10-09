@@ -5,16 +5,16 @@ import com.example.demo.inputs.models.MediaResponse;
 
 import java.util.List;
 
-public interface MediaInputMapper {
+public class MediaInputMapper {
 
-   static MediaResponse mapMediaToMediaResponse(Media media) {
+   public static MediaResponse mapMediaToMediaResponse(Media media) {
         return new MediaResponse(
                 media.getId(),
                 media.getUrl(),
                 media.getType());
    }
 
-   static List <MediaResponse> mapMediaToMediaResponse(List<Media> medias) {
+   public static List <MediaResponse> mapMediaToMediaResponse(List<Media> medias) {
         return medias.stream().map(MediaInputMapper::mapMediaToMediaResponse).toList();
    }
 }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class MediaOutputMapper {
 
   public static Media mapMediaEntityToMedia(MediaEntity mediaEntity) {
@@ -17,9 +16,19 @@ public class MediaOutputMapper {
         );
     }
 
-
-
- public static List<Media> mapMediaEntityToMediaList(List<MediaEntity> medias) {
+    public static List<Media> mapMediaEntityToMediaList(List<MediaEntity> medias) {
         return medias.stream().map(MediaOutputMapper::mapMediaEntityToMedia).toList();
+    }
+
+    public static MediaEntity mapMediaToMediaEntity(Media media) {
+        return new MediaEntity(
+                media.getId(),
+                media.getUrl(),
+                media.getType()
+        );
+    }
+
+    public static List<MediaEntity> mapMediaListToMediaEntityList(List<Media> medias) {
+        return medias.stream().map(MediaOutputMapper::mapMediaToMediaEntity).toList();
     }
 }

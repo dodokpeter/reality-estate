@@ -4,7 +4,7 @@ import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.AddUserInputPort;
 import com.example.demo.domain.ports.UserInputPort;
 import com.example.demo.inputs.models.UserResponse;
-import com.example.demo.outputs.UserMapper;
+import com.example.demo.inputs.mappers.UserInputMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +21,13 @@ public class UserInputAdapter {
     @GetMapping
     public List<UserResponse> getUsers() {
         List<User> users = userInputPort.getUsers();
-        List<UserResponse> userResponses = UserMapper.mapUserListToUserReponse(users);
+        List<UserResponse> userResponses = UserInputMapper.mapUserListToUserResponse(users);
         return userResponses;
     }
 
     @PostMapping()
     public UserResponse addUser(@RequestBody User user) {
         User newUser = addUserInputPort.addUser(user);
-        return UserMapper.mapUserToUserResponse(newUser);
+        return UserInputMapper.mapUserToUserResponse(newUser);
     }
 }

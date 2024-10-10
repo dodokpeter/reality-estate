@@ -1,5 +1,6 @@
-package com.example.demo.reality;
+package com.example.demo.outputs.entities;
 
+import com.example.demo.domain.models.Media;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "RealitiesTable")
-public class Reality {
+public class RealityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,8 +27,8 @@ public class Reality {
     private int area;
     private String description;
 
-    @OneToMany(mappedBy = "reality", fetch = FetchType.LAZY)
-    private List<Media> medias;
+    @OneToMany(mappedBy = "realityEntity", fetch = FetchType.LAZY)
+    private List<MediaEntity> medias;
 
     @Override
     public String toString() {
@@ -39,7 +40,7 @@ public class Reality {
                 ", rooms=" + rooms +
                 ", area=" + area +
                 ", description='" + description + '\'' +
-                ", medias=" + medias +
+//                ", medias=" + medias +
                 '}';
     }
 }

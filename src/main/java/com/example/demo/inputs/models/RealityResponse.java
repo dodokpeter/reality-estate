@@ -1,7 +1,8 @@
-package com.example.demo.reality;
+package com.example.demo.inputs.models;
+
 import java.util.List;
 
-public record RealityDTO(
+public record RealityResponse(
     Long id,
     String type,
     String location,
@@ -9,6 +10,5 @@ public record RealityDTO(
     int rooms,
     int area,
     String description,
-    List<MediaDTO> medias,
-    MediaDTO previewImage
+    List<MediaResponse> medias
 ) {}

@@ -3,20 +3,18 @@ package com.example.demo.domain.delegators;
 import com.example.demo.domain.exceptions.MediaNotFoundException;
 import com.example.demo.domain.models.Media;
 import com.example.demo.domain.models.Reality;
-import com.example.demo.domain.ports.*;
-import com.example.demo.outputs.entities.RealityEntity;
+import com.example.demo.domain.ports.media.*;
+import com.example.demo.domain.ports.realities.RealitiesOutputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
-// todo: remain to MediaInputPortDelegator (for consistency)
 @Service
 @AllArgsConstructor
 @Slf4j
-public class MediaInputDelegator implements MediaInputPort, CreateMediaInputPort, UpdateMediaInputPort {
+public class MediaInputPortDelegator implements MediaInputPort, CreateMediaInputPort, UpdateMediaInputPort {
 
     private final MediaOutputPort mediaOutputPort;
     private final CreateMediaOutputPort createMediaOutputPort;

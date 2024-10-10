@@ -1,8 +1,8 @@
 package com.example.demo.inputs;
 
 import com.example.demo.domain.models.User;
-import com.example.demo.domain.ports.AddUserInputPort;
-import com.example.demo.domain.ports.UserInputPort;
+import com.example.demo.domain.ports.user.AddUserInputPort;
+import com.example.demo.domain.ports.user.UserInputPort;
 import com.example.demo.inputs.models.UserResponse;
 import com.example.demo.inputs.mappers.UserInputMapper;
 import lombok.AllArgsConstructor;

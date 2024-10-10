@@ -2,9 +2,9 @@ package com.example.demo.outputs;
 
 import com.example.demo.domain.exceptions.MediaNotFoundException;
 import com.example.demo.domain.models.Media;
-import com.example.demo.domain.ports.CreateMediaOutputPort;
-import com.example.demo.domain.ports.MediaOutputPort;
-import com.example.demo.domain.ports.UpdateMediaOutputPort;
+import com.example.demo.domain.ports.media.CreateMediaOutputPort;
+import com.example.demo.domain.ports.media.MediaOutputPort;
+import com.example.demo.domain.ports.media.UpdateMediaOutputPort;
 import com.example.demo.outputs.entities.MediaEntity;
 import com.example.demo.outputs.entities.RealityEntity;
 import com.example.demo.outputs.mappers.MediaOutputMapper;

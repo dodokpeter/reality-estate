@@ -1,13 +1,12 @@
 package com.example.demo.outputs;
 
-import com.example.demo.domain.ports.CreateRealitiesOutputPort;
-import com.example.demo.domain.ports.UpdateRealitiesOutputPort;
+import com.example.demo.domain.ports.realities.CreateRealitiesOutputPort;
+import com.example.demo.domain.ports.realities.UpdateRealitiesOutputPort;
 import com.example.demo.outputs.entities.RealityEntity;
-import com.example.demo.inputs.mappers.RealityInputMapper;
 import com.example.demo.outputs.mappers.RealityOutputMapper;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
-import com.example.demo.domain.ports.RealitiesOutputPort;
+import com.example.demo.domain.ports.realities.RealitiesOutputPort;
 import com.example.demo.domain.exceptions.RealityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

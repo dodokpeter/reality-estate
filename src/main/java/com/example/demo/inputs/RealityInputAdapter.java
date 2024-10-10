@@ -1,12 +1,12 @@
 package com.example.demo.inputs;
 
 import com.example.demo.domain.exceptions.RealityNotFoundException;
-import com.example.demo.domain.ports.CreateRealitiesInputPort;
-import com.example.demo.domain.ports.UpdateRealitiesInputPort;
+import com.example.demo.domain.ports.realities.CreateRealitiesInputPort;
+import com.example.demo.domain.ports.realities.UpdateRealitiesInputPort;
 import com.example.demo.inputs.mappers.RealityInputMapper;
 import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.domain.models.Reality;
-import com.example.demo.domain.ports.RealitiesInputPort;
+import com.example.demo.domain.ports.realities.RealitiesInputPort;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

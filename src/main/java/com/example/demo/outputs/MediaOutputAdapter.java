@@ -1,21 +1,26 @@
 package com.example.demo.outputs;
 
+import com.example.demo.domain.exceptions.MediaNotFoundException;
 import com.example.demo.domain.models.Media;
 import com.example.demo.domain.ports.CreateMediaOutputPort;
 import com.example.demo.domain.ports.MediaOutputPort;
+import com.example.demo.domain.ports.UpdateMediaOutputPort;
 import com.example.demo.outputs.entities.MediaEntity;
+import com.example.demo.outputs.entities.RealityEntity;
 import com.example.demo.outputs.mappers.MediaOutputMapper;
+import com.example.demo.outputs.mappers.RealityOutputMapper;
 import com.example.demo.outputs.repositories.MediaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
 @AllArgsConstructor
-public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPort {
+public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPort, UpdateMediaOutputPort {
 
     private final MediaRepository mediaRepository;
 
@@ -29,7 +34,27 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
     public Media addMedia(Media media) {
         log.info("Adding a new reality to the database ...");
         MediaEntity mediaEntity = MediaOutputMapper.mapMediaToMediaEntity(media);
+        RealityEntity realityEntity = RealityOutputMapper.mapRealityToRealityEntity(media.getReality());
+        mediaEntity.setRealityEntity(realityEntity);
         MediaEntity saved = mediaRepository.save(mediaEntity);
         return MediaOutputMapper.mapMediaEntityToMedia(saved);
+    }
+
+    @Override
+    public Media updateMedia(Media media, Long mediaId) throws MediaNotFoundException {
+        Optional<MediaEntity> mediaInDbOpt = mediaRepository.findById(mediaId);
+        if (mediaInDbOpt.isPresent()) {
+            MediaEntity mediaInDb = mediaInDbOpt.get();
+            mediaInDb.setId(mediaId);
+            mediaInDb.setMediaType(media.getType());
+            mediaInDb.setUrl(media.getUrl());
+            mediaInDb = mediaRepository.save(mediaInDb);
+            log.info("Updated the media with the current id.");
+            return MediaOutputMapper.mapMediaEntityToMedia(mediaInDb);
+        }
+        else {
+            log.error("Could not find media with this id.");
+            throw new MediaNotFoundException("Položka Media s daným realityId nebola nájdená.");
+        }
     }
 }

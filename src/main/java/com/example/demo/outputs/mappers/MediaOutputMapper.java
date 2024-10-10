@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MediaOutputMapper {
 
-  public static Media mapMediaEntityToMedia(MediaEntity mediaEntity) {
+    public static Media mapMediaEntityToMedia(MediaEntity mediaEntity) {
         return new Media(
                 mediaEntity.getId(),
                 mediaEntity.getUrl(),

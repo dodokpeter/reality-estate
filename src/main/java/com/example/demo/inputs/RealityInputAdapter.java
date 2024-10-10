@@ -53,6 +53,6 @@ public class RealityInputAdapter {
     @PostMapping("/{realityId}")
     public RealityResponse updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
         Reality updatedReality = updateRealitiesInputPort.updateReality(reality, realityId);
-        return RealityInputMapper.mapRealityToRealityResponse(updatedReality);dasdasdasd
+        return RealityInputMapper.mapRealityToRealityResponse(updatedReality);
     }
 }

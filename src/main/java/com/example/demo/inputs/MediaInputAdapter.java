@@ -23,6 +23,8 @@ public class MediaInputAdapter {
         return mediaResponses;
     }
 
-
-
+    public MediaResponse getMediaById(@PathVariable Long id) {
+        Media media = mediaInputPort.getMediaById(id);
+        return MediaInputMapper.mapMediaToMediaResponse(media);
+    }
 }

@@ -5,6 +5,7 @@ import com.example.demo.outputs.entities.MediaEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MediaOutputMapper {
 

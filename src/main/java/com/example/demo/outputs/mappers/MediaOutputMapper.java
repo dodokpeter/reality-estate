@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class MediaOutputMapper {
 
-  public static Media mapMediaEntityToMedia(Optional<MediaEntity> mediaEntity) {
+  public static Media mapMediaEntityToMedia(MediaEntity mediaEntity) {
         return new Media(
                 mediaEntity.getId(),
                 mediaEntity.getUrl(),
@@ -16,9 +16,11 @@ public class MediaOutputMapper {
         );
     }
 
+
     public static List<Media> mapMediaEntityToMediaList(List<MediaEntity> medias) {
         return medias.stream().map(MediaOutputMapper::mapMediaEntityToMedia).toList();
     }
+
 
     public static MediaEntity mapMediaToMediaEntity(Media media) {
         return new MediaEntity(

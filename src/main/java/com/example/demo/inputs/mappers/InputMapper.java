@@ -7,7 +7,6 @@ import com.example.demo.inputs.models.MediaResponse;
 import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.inputs.models.UserResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 

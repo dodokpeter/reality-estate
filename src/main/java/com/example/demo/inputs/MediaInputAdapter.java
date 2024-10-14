@@ -6,10 +6,8 @@ import com.example.demo.domain.ports.media.CreateMediaInputPort;
 import com.example.demo.domain.ports.media.MediaInputPort;
 import com.example.demo.domain.ports.media.UpdateMediaInputPort;
 import com.example.demo.inputs.mappers.InputMapper;
-import com.example.demo.inputs.mappers.MediaInputMapper;
 import com.example.demo.inputs.models.MediaResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +33,13 @@ public class MediaInputAdapter {
     @PostMapping("/{realityId}")
     public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) {
         Media addedMedia = createMediaInputPort.addMedia(media, realityId);
-        return MediaInputMapper.mapMediaToMediaResponse(addedMedia);
+        return inputMapper.mapMediaToMediaResponse(addedMedia);
     }
 
     // todo: what does PATCH mapping do ?
     @PutMapping("/{mediaId}")
     public MediaResponse updateMedia(@RequestBody Media media, @PathVariable Long mediaId) throws MediaNotFoundException {
         Media updatedMedia = updateMediaInputPort.updateMedia(media, mediaId);
-        return MediaInputMapper.mapMediaToMediaResponse(updatedMedia);
+        return inputMapper.mapMediaToMediaResponse(updatedMedia);
     }
 }

@@ -3,7 +3,7 @@ package com.example.demo.inputs;
 import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.ports.realities.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesInputPort;
-import com.example.demo.inputs.mappers.RealityInputMapper;
+import com.example.demo.inputs.mappers.InputMapper;
 import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.realities.RealitiesInputPort;
@@ -24,35 +24,36 @@ public class RealityInputAdapter {
     private final CreateRealitiesInputPort createRealitiesInputPort;
     private final UpdateRealitiesInputPort updateRealitiesInputPort;
 
+    private final InputMapper inputMapper;
+
     @GetMapping
     public List<RealityResponse> getRealities() {
         List<Reality> realities = realitiesInputPort.getRealities();
-        return RealityInputMapper.mapRealityListToRealityResponseList(realities);
-
+        return inputMapper.mapRealityListToRealityResponseList(realities);
     }
 
     @GetMapping("/paginated")
     public Page<RealityResponse> getPage(Pageable page) {
         Page<Reality> realityPage = realitiesInputPort.getRealitiesByPage(page);
         List<Reality> realityList = realityPage.getContent();
-        List<RealityResponse> realityResponseList = RealityInputMapper.mapRealityListToRealityResponseList(realityList);
+        List<RealityResponse> realityResponseList = inputMapper.mapRealityListToRealityResponseList(realityList);
         return new PageImpl<>(realityResponseList, page, realityResponseList.size());
     }
 
     @GetMapping("/{realityId}")
     public RealityResponse getRealityById(@PathVariable Long realityId) {
-        return RealityInputMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
+        return inputMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
     }
 
     @PostMapping()
     public RealityResponse addReality(@RequestBody Reality reality) {
         Reality addedReality = createRealitiesInputPort.addReality(reality);
-        return RealityInputMapper.mapRealityToRealityResponse(addedReality);
+        return inputMapper.mapRealityToRealityResponse(addedReality);
     }
 
     @PostMapping("/{realityId}")
     public RealityResponse updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
         Reality updatedReality = updateRealitiesInputPort.updateReality(reality, realityId);
-        return RealityInputMapper.mapRealityToRealityResponse(updatedReality);
+        return inputMapper.mapRealityToRealityResponse(updatedReality);
     }
 }

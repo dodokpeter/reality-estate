@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface MediaInputPort {
     List<Media> getMediaByRealityId(Long realityId);
-    Media getMediaById(Long id);
+    Media getMediaById(Long mediaId);
 }
-∫

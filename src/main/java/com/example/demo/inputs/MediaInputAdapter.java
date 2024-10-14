@@ -5,9 +5,11 @@ import com.example.demo.domain.models.Media;
 import com.example.demo.domain.ports.media.CreateMediaInputPort;
 import com.example.demo.domain.ports.media.MediaInputPort;
 import com.example.demo.domain.ports.media.UpdateMediaInputPort;
+import com.example.demo.inputs.mappers.InputMapper;
 import com.example.demo.inputs.mappers.MediaInputMapper;
 import com.example.demo.inputs.models.MediaResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,10 +23,12 @@ public class MediaInputAdapter {
     private final CreateMediaInputPort createMediaInputPort;
     private final UpdateMediaInputPort updateMediaInputPort;
 
+    private final InputMapper inputMapper;
+
     @GetMapping("/{realityId}")
     public List<MediaResponse> getMediaByRealityId(@PathVariable Long realityId) {
         List<Media> media = mediaInputPort.getMediaByRealityId(realityId);
-        List<MediaResponse> mediaResponses = MediaInputMapper.mapMediaToMediaResponse(media);
+        List<MediaResponse> mediaResponses = inputMapper.mapMediaToMediaResponse(media);
         return mediaResponses;
     }
 

@@ -6,8 +6,8 @@ import com.example.demo.inputs.mappers.MediaInputMapper;
 import com.example.demo.inputs.models.MediaResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
 
 @AllArgsConstructor
 @RestController
@@ -23,8 +23,9 @@ public class MediaInputAdapter {
         return mediaResponses;
     }
 
-    public MediaResponse getMediaById(@PathVariable Long id) {
-        Media media = mediaInputPort.getMediaById(id);
-        return MediaInputMapper.mapMediaToMediaResponse(media);
+    @GetMapping("/{mediaId}")
+    public MediaResponse getMediaById(@PathVariable Long mediaId) {
+        return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId))   ;
+
     }
 }

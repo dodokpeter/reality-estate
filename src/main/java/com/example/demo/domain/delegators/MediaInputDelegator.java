@@ -21,8 +21,8 @@ public class MediaInputDelegator implements MediaInputPort {
         return mediaOutputPort.getMediaByRealityId(realityId);
     }
 
-    public Media getMediaById(Long id) {
-        return mediaOutputPort.getMediaById(id);
+    public Media getMediaById(Long mediaId) {
+        return mediaOutputPort.getMediaById(mediaId);
     }
 }
 

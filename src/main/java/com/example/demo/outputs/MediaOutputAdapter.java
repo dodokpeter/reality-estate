@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class MediaOutputAdapter implements MediaOutputPort {
     }
 
     @Override
-    public Media getMediaById(Long id) {
+    public Optional<Media> getMediaById(Long id) {
 //        Optional<MediaEntity> media = mediaRepository.findById(id);
 //        return  MediaOutputMapper.mapMediaEntityToMedia(media);
         return mediaRepository.findById(id).map(MediaOutputMapper::mapMediaEntityToMedia);

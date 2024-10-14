@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface MediaOutputPort {
     List <Media> getMediaByRealityId(Long realityId);
-    Optional<Media> getMediaById(Long id);
+    Media getMediaById(Long id);
 }

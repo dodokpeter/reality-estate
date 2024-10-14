@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,9 +21,9 @@ public class MediaInputDelegator implements MediaInputPort {
     public List<Media> getMediaByRealityId(Long realityId) {
         return mediaOutputPort.getMediaByRealityId(realityId);
     }
-
-    public Media getMediaById(Long mediaId) {
-        return mediaOutputPort.getMediaById(mediaId);
+@Override
+    public Media getMediaById(Long id) {
+        return mediaOutputPort.getMediaById(id);
     }
 }
 

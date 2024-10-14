@@ -19,13 +19,4 @@ public class MediaInputMapper {
         return medias.stream().map(MediaInputMapper::mapMediaToMediaResponse).toList();
    }
 
-//    public static MediaResponse mapMediumToMediaResponse(Media medium) {
-//        return new MediaResponse(
-//                medium.getId(),
-//                medium.getUrl(),
-//                medium.getType());
-//    }
-//    public static MediaResponse mapMediumToMediaResponse(Optional<Media> medium) {
-//        return medium.stream().map(MediaInputMapper.mapMediumToMediaResponse(medium);
-//    }
 }

@@ -25,7 +25,7 @@ public class MediaOutputAdapter implements MediaOutputPort {
 
     @Override
     public Media getMediaById(Long mediaId) {
-        Optional<MediaEntity> media = mediaRepository.findById(id);
+        Optional<MediaEntity> media = mediaRepository.findById(mediaId);
         if (media.isPresent()) {
             return MediaOutputMapper.mapMediaEntityToMedia(media.get());
         } else

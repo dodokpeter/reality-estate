@@ -16,7 +16,7 @@ public class MediaInputAdapter {
 
     public final MediaInputPort mediaInputPort;
 
-    @GetMapping("/{realityId}")
+    @GetMapping("/reality/{realityId}")
     public List<MediaResponse> getMediaByRealityId(@PathVariable Long realityId) {
         List<Media> media = mediaInputPort.getMediaByRealityId(realityId);
         List<MediaResponse> mediaResponses = MediaInputMapper.mapMediaToMediaResponse(media);

@@ -3,7 +3,6 @@ package com.example.demo.outputs;
 import com.example.demo.domain.ports.CreateRealitiesOutputPort;
 import com.example.demo.domain.ports.UpdateRealitiesOutputPort;
 import com.example.demo.outputs.entities.RealityEntity;
-import com.example.demo.inputs.mappers.RealityInputMapper;
 import com.example.demo.outputs.mappers.RealityOutputMapper;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;

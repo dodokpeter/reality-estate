@@ -4,7 +4,6 @@ import com.example.demo.domain.models.Media;
 import com.example.demo.outputs.entities.MediaEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public class MediaOutputMapper {
 

@@ -1,9 +1,12 @@
 package com.example.demo.outputs;
 
+import com.example.demo.domain.models.Media;
 import com.example.demo.domain.ports.realities.CreateRealitiesOutputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesOutputPort;
+import com.example.demo.outputs.entities.MediaEntity;
 import com.example.demo.outputs.entities.RealityEntity;
 import com.example.demo.outputs.mappers.OutputMapper;
+import com.example.demo.outputs.repositories.MediaRepository;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.realities.RealitiesOutputPort;
@@ -25,6 +28,7 @@ import java.util.Optional;
 public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealitiesOutputPort, UpdateRealitiesOutputPort {
 
     private final RealityRepository realityRepository;
+    private final MediaRepository mediaRepository;
     private final OutputMapper outputMapper;
 
     @Override
@@ -54,14 +58,18 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     public Reality addReality(Reality reality) {
         log.info("Adding a new reality to the database ...");
         RealityEntity realityEntity = outputMapper.mapRealityToRealityEntity(reality);
-        RealityEntity saved = realityRepository.save(realityEntity);
-        return outputMapper.mapRealityEntityToReality(saved);
+        RealityEntity savedEntity = realityRepository.save(realityEntity);
+        Reality saved = outputMapper.mapRealityEntityToReality(savedEntity);
 
-        // todo: implement medias
-//        reality.getMedias().forEach(
-//                media -> media.setReality(realityNew)
-//        );
-//        mediaRepository.saveAll(reality.getMedias());
+        List<Media> media = reality.getMedias();
+        media.forEach(
+                m -> m.setReality(saved)
+        );
+        List<MediaEntity> mediaEntities = outputMapper.mapMediaListToMediaEntityList(media);
+        mediaRepository.saveAll(mediaEntities);
+        saved.setMedias(media);
+
+        return outputMapper.mapRealityEntityToReality(savedEntity);
     }
 
     @Override

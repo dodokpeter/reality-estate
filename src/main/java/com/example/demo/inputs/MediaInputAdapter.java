@@ -36,7 +36,6 @@ public class MediaInputAdapter {
         return inputMapper.mapMediaToMediaResponse(addedMedia);
     }
 
-    // todo: what does PATCH mapping do ?
     @PutMapping("/{mediaId}")
     public MediaResponse updateMedia(@RequestBody Media media, @PathVariable Long mediaId) throws MediaNotFoundException {
         Media updatedMedia = updateMediaInputPort.updateMedia(media, mediaId);

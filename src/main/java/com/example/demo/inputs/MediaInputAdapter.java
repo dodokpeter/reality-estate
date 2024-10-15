@@ -5,7 +5,7 @@ import com.example.demo.domain.models.Media;
 import com.example.demo.domain.ports.media.CreateMediaInputPort;
 import com.example.demo.domain.ports.media.MediaInputPort;
 import com.example.demo.domain.ports.media.UpdateMediaInputPort;
-import com.example.demo.inputs.mappers.InputMapper;
+import com.example.demo.inputs.mappers.MediaInputMapper;
 import com.example.demo.inputs.models.MediaResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,24 +21,24 @@ public class MediaInputAdapter {
     private final CreateMediaInputPort createMediaInputPort;
     private final UpdateMediaInputPort updateMediaInputPort;
 
-    private final InputMapper inputMapper;
+    private final MediaInputMapper mediaInputMapper;
 
     @GetMapping("/{realityId}")
     public List<MediaResponse> getMediaByRealityId(@PathVariable Long realityId) {
         List<Media> media = mediaInputPort.getMediaByRealityId(realityId);
-        List<MediaResponse> mediaResponses = inputMapper.mapMediaToMediaResponse(media);
+        List<MediaResponse> mediaResponses = mediaInputMapper.mapMediaToMediaResponse(media);
         return mediaResponses;
     }
 
     @PostMapping("/{realityId}")
     public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) {
         Media addedMedia = createMediaInputPort.addMedia(media, realityId);
-        return inputMapper.mapMediaToMediaResponse(addedMedia);
+        return mediaInputMapper.mapMediaToMediaResponse(addedMedia);
     }
 
     @PutMapping("/{mediaId}")
     public MediaResponse updateMedia(@RequestBody Media media, @PathVariable Long mediaId) throws MediaNotFoundException {
         Media updatedMedia = updateMediaInputPort.updateMedia(media, mediaId);
-        return inputMapper.mapMediaToMediaResponse(updatedMedia);
+        return mediaInputMapper.mapMediaToMediaResponse(updatedMedia);
     }
 }

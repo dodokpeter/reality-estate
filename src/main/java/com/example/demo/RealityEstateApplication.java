@@ -1,11 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.domain.delegators.RealityInputPortDelegator;
-import com.example.demo.domain.ports.realities.RealitiesInputPort;
-import com.example.demo.inputs.mappers.InputMapper;
-import com.example.demo.inputs.mappers.InputMapperImpl;
-import com.example.demo.outputs.mappers.OutputMapper;
-import com.example.demo.outputs.mappers.OutputMapperImpl;
+import com.example.demo.inputs.mappers.*;
+import com.example.demo.outputs.mappers.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +14,32 @@ public class RealityEstateApplication {
 	}
 
 	@Bean
-	public InputMapper inputMapper() {
-		return new InputMapperImpl();
+	public MediaInputMapper mediaInputMapper() {
+		return new MediaInputMapperImpl();
 	}
 
 	@Bean
-	public OutputMapper outputMapper() {
-		return new OutputMapperImpl();
+	public MediaOutputMapper outputMapper() {
+		return new MediaOutputMapperImpl();
+	}
+
+	@Bean
+	public RealityInputMapper realityInputMapper() {
+		return new RealityInputMapperImpl();
+	}
+
+	@Bean
+	public RealityOutputMapper realityOutputMapper() {
+		return new RealityOutputMapperImpl();
+	}
+
+	@Bean
+	public UserInputMapper userInputMapper() {
+		return new UserInputMapperImpl();
+	}
+
+	@Bean
+	public UserOutputMapper userOutputMapper() {
+		return new UserOutputMapperImpl();
 	}
 }

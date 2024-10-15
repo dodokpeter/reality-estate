@@ -7,7 +7,8 @@ import com.example.demo.domain.ports.media.MediaOutputPort;
 import com.example.demo.domain.ports.media.UpdateMediaOutputPort;
 import com.example.demo.outputs.entities.MediaEntity;
 import com.example.demo.outputs.entities.RealityEntity;
-import com.example.demo.outputs.mappers.OutputMapper;
+import com.example.demo.outputs.mappers.MediaOutputMapper;
+import com.example.demo.outputs.mappers.RealityOutputMapper;
 import com.example.demo.outputs.repositories.MediaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,22 +23,23 @@ import java.util.Optional;
 public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPort, UpdateMediaOutputPort {
 
     private final MediaRepository mediaRepository;
-    private final OutputMapper outputMapper;
+    private final MediaOutputMapper mediaOutputMapper;
+    private final RealityOutputMapper realityOutputMapper;
 
     @Override
     public List<Media> getMediaByRealityId(Long realityId) {
         List<MediaEntity> medias = mediaRepository.findAllById(realityId);
-        return outputMapper.mapMediaEntityToMediaList(medias);
+        return mediaOutputMapper.mapMediaEntityToMediaList(medias);
     }
 
     @Override
     public Media addMedia(Media media) {
         log.info("Adding a new reality to the database ...");
-        MediaEntity mediaEntity = outputMapper.mapMediaToMediaEntity(media);
-        RealityEntity realityEntity = outputMapper.mapRealityToRealityEntity(media.getReality());
+        MediaEntity mediaEntity = mediaOutputMapper.mapMediaToMediaEntity(media);
+        RealityEntity realityEntity = realityOutputMapper.mapRealityToRealityEntity(media.getReality());
         mediaEntity.setRealityEntity(realityEntity);
         MediaEntity saved = mediaRepository.save(mediaEntity);
-        return outputMapper.mapMediaEntityToMedia(saved);
+        return mediaOutputMapper.mapMediaEntityToMedia(saved);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
             mediaInDb.setUrl(media.getUrl());
             mediaInDb = mediaRepository.save(mediaInDb);
             log.info("Updated the media with the current id.");
-            return outputMapper.mapMediaEntityToMedia(mediaInDb);
+            return mediaOutputMapper.mapMediaEntityToMedia(mediaInDb);
         }
         else {
             log.error("Could not find media with this id.");

@@ -9,6 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface MediaOutputMapper {
+    @Mapping(target = "type", source = "mediaEntity.mediaType")
     Media mapMediaEntityToMedia(MediaEntity mediaEntity);
     List<Media> mapMediaEntityToMediaList(List<MediaEntity> medias);
 

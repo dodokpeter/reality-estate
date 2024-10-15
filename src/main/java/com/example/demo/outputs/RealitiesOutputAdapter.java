@@ -69,9 +69,9 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
         );
         List<MediaEntity> mediaEntities = mediaOutputMapper.mapMediaListToMediaEntityList(media);
         mediaRepository.saveAll(mediaEntities);
-        saved.setMedias(media);
+        saved.setMedias(mediaOutputMapper.mapMediaEntityToMediaList(mediaEntities));
 
-        return realityOutputMapper.mapRealityEntityToReality(savedEntity);
+        return saved;
     }
 
     @Override

@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -27,6 +28,11 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
     public List<Media> getMediaByRealityId(Long realityId) {
         List<MediaEntity> medias = mediaRepository.findAllById(realityId);
         return MediaOutputMapper.mapMediaEntityToMediaList(medias);
+    }
+
+    @Override
+    public Media getMediaById(Long id) {
+        return null;
     }
 
     @Override

@@ -27,6 +27,11 @@ public class MediaInputPortDelegator implements MediaInputPort, CreateMediaInput
     }
 
     @Override
+    public Media getMediaById(Long id) {
+        return mediaOutputPort.getMediaById(id);
+    }
+
+    @Override
     public Media addMedia(Media media, Long realityId) {
         Reality realityById = realitiesOutputPort.getRealityById(realityId);
         media.setReality(realityById);

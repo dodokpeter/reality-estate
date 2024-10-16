@@ -1,8 +1,8 @@
 package com.example.demo.outputs;
 
 import com.example.demo.domain.models.User;
-import com.example.demo.domain.ports.AddUserOutputPort;
-import com.example.demo.domain.ports.UserOutputPort;
+import com.example.demo.domain.ports.user.AddUserOutputPort;
+import com.example.demo.domain.ports.user.UserOutputPort;
 import com.example.demo.outputs.entities.UserEntity;
 import com.example.demo.outputs.mappers.UserOutputMapper;
 import com.example.demo.outputs.repositories.UserRepository;

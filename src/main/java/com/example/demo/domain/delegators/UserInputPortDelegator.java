@@ -1,10 +1,10 @@
 package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.models.User;
-import com.example.demo.domain.ports.AddUserInputPort;
-import com.example.demo.domain.ports.AddUserOutputPort;
-import com.example.demo.domain.ports.UserInputPort;
-import com.example.demo.domain.ports.UserOutputPort;
+import com.example.demo.domain.ports.user.AddUserInputPort;
+import com.example.demo.domain.ports.user.AddUserOutputPort;
+import com.example.demo.domain.ports.user.UserInputPort;
+import com.example.demo.domain.ports.user.UserOutputPort;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

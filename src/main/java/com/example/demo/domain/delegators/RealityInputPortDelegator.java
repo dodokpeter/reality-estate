@@ -2,9 +2,8 @@ package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.models.Reality;
-import com.example.demo.domain.ports.*;
+import com.example.demo.domain.ports.realities.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -32,7 +32,11 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
 
     @Override
     public Media getMediaById(Long id) {
-        return null;
+        Optional<MediaEntity> media = mediaRepository.findById(id);
+        if (media.isPresent()) {
+            return MediaOutputMapper.mapMediaEntityToMedia(media.get());
+        } else
+            return null;
     }
 
     @Override
@@ -56,8 +60,7 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
             mediaInDb = mediaRepository.save(mediaInDb);
             log.info("Updated the media with the current id.");
             return MediaOutputMapper.mapMediaEntityToMedia(mediaInDb);
-        }
-        else {
+        } else {
             log.error("Could not find media with this id.");
             throw new MediaNotFoundException("Položka Media s daným realityId nebola nájdená.");
         }

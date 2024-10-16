@@ -29,6 +29,10 @@ public class MediaInputAdapter {
         return mediaResponses;
     }
 
+    @GetMapping("/{mediaId}")
+    public MediaResponse getMediaById(@PathVariable Long mediaId) {
+        return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId))   ;
+    }
     @PostMapping("/{realityId}")
     public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) {
         Media addedMedia = createMediaInputPort.addMedia(media, realityId);

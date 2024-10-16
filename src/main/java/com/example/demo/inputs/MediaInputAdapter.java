@@ -8,6 +8,7 @@ import com.example.demo.domain.ports.media.UpdateMediaInputPort;
 import com.example.demo.inputs.mappers.MediaInputMapper;
 import com.example.demo.inputs.models.MediaResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +31,9 @@ public class MediaInputAdapter {
 
     @GetMapping("/{mediaId}")
     public MediaResponse getMediaById(@PathVariable Long mediaId) {
-        return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId))   ;
+        return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId));
     }
+
 
     @PostMapping("/{realityId}")
     public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) {
@@ -44,5 +46,11 @@ public class MediaInputAdapter {
     public MediaResponse updateMedia(@RequestBody Media media, @PathVariable Long mediaId) throws MediaNotFoundException {
         Media updatedMedia = updateMediaInputPort.updateMedia(media, mediaId);
         return MediaInputMapper.mapMediaToMediaResponse(updatedMedia);
+    }
+
+    @DeleteMapping("/{mediaId}")
+    public ResponseEntity<Void> deleteMediaById(@PathVariable Long mediaId) {
+        mediaInputPort.deleteMediaById(mediaId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,14 +1,12 @@
 package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.models.Media;
-import com.example.demo.domain.ports.MediaInputPort;
-import com.example.demo.domain.ports.MediaOutputPort;
+import com.example.demo.domain.ports.media.MediaInputPort;
+import com.example.demo.domain.ports.media.MediaOutputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,9 +19,15 @@ public class MediaInputDelegator implements MediaInputPort {
     public List<Media> getMediaByRealityId(Long realityId) {
         return mediaOutputPort.getMediaByRealityId(realityId);
     }
-@Override
+
+    @Override
     public Media getMediaById(Long id) {
         return mediaOutputPort.getMediaById(id);
+    }
+
+    @Override
+    public void deleteMediaById(Long id) {
+         mediaOutputPort.deleteMediaById(id);
     }
 }
 

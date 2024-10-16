@@ -66,4 +66,9 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
             throw new MediaNotFoundException("Položka Media s daným realityId nebola nájdená.");
         }
     }
+
+    @Override
+    public void deleteMediaById(Long mediaId) {
+        mediaRepository.deleteById(mediaId);
+    }
 }

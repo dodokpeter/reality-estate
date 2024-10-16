@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface MediaOutputPort {
     List <Media> getMediaByRealityId(Long realityId);
     Media getMediaById(Long id);
+    void deleteMediaById(Long id);
 }

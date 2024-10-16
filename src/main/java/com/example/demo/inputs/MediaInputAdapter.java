@@ -2,6 +2,7 @@ package com.example.demo.inputs;
 
 import com.example.demo.domain.exceptions.MediaNotFoundException;
 import com.example.demo.domain.models.Media;
+import com.example.demo.domain.models.MediaType;
 import com.example.demo.domain.ports.media.CreateMediaInputPort;
 import com.example.demo.domain.ports.media.MediaInputPort;
 import com.example.demo.domain.ports.media.UpdateMediaInputPort;
@@ -34,6 +35,40 @@ public class MediaInputAdapter {
         return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId));
     }
 
+    @GetMapping("/media")
+    public List<MediaResponse> getMediaByMediaType(@RequestParam(required = false) MediaType mediaType) {
+
+        if (mediaType == null) {
+            List<Media> media;
+            media = mediaInputPort.getAllMedia();
+            return MediaInputMapper.mapMediaToMediaResponse(media);
+        } else {
+            List<Media> media;
+            media = mediaInputPort.getMediaByType(mediaType);
+            return MediaInputMapper.mapMediaToMediaResponse(media);
+        }
+
+//        List<Media> media;
+//        if (mediaType == null) {
+//            media = mediaInputPort.getAllMedia();
+//            return MediaInputMapper.mapMediaToMediaResponse(media);
+//        }
+//            media = mediaInputPort.getMediaByType(mediaType);
+//            return MediaInputMapper.mapMediaToMediaResponse(media);
+//
+//
+//        List<Media> media;
+//        if (mediaType == null) {
+//            media = mediaInputPort.getAllMedia();
+//            return MediaInputMapper.mapMediaToMediaResponse(media);
+//        } else {
+//
+//            media = mediaInputPort.getMediaByType(mediaType);
+//            return MediaInputMapper.mapMediaToMediaResponse(media);
+//        }
+//       return MediaInputMapper.mapMediaToMediaResponse(media);
+
+    }
 
     @PostMapping("/{realityId}")
     public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) {

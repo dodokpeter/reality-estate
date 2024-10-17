@@ -15,9 +15,11 @@ public class MediaOutputMapper {
         );
     }
 
+
     public static List<Media> mapMediaEntityToMediaList(List<MediaEntity> medias) {
         return medias.stream().map(MediaOutputMapper::mapMediaEntityToMedia).toList();
     }
+
 
     public static MediaEntity mapMediaToMediaEntity(Media media) {
         return new MediaEntity(

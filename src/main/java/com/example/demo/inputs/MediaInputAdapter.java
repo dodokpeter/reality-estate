@@ -2,16 +2,17 @@ package com.example.demo.inputs;
 
 import com.example.demo.domain.exceptions.MediaNotFoundException;
 import com.example.demo.domain.models.Media;
+import com.example.demo.domain.models.MediaType;
 import com.example.demo.domain.ports.media.CreateMediaInputPort;
 import com.example.demo.domain.ports.media.MediaInputPort;
 import com.example.demo.domain.ports.media.UpdateMediaInputPort;
 import com.example.demo.inputs.mappers.MediaInputMapper;
 import com.example.demo.inputs.models.MediaResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @AllArgsConstructor
 @RestController
@@ -31,8 +32,15 @@ public class MediaInputAdapter {
 
     @GetMapping("/{mediaId}")
     public MediaResponse getMediaById(@PathVariable Long mediaId) {
-        return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId))   ;
+        return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId));
     }
+
+    @GetMapping("/reality-media/{realityId}")
+    public List<MediaResponse> getMediaByMediaType(@PathVariable Long realityId, @RequestParam(required = false) MediaType mediaType) {
+        List<Media> media = mediaType == null ? mediaInputPort.getMediaByRealityId(realityId) : mediaInputPort.getMediaByType(realityId, mediaType);
+        return MediaInputMapper.mapMediaToMediaResponse(media);
+    }
+
     @PostMapping("/{realityId}")
     public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) {
         Media addedMedia = createMediaInputPort.addMedia(media, realityId);
@@ -44,5 +52,11 @@ public class MediaInputAdapter {
     public MediaResponse updateMedia(@RequestBody Media media, @PathVariable Long mediaId) throws MediaNotFoundException {
         Media updatedMedia = updateMediaInputPort.updateMedia(media, mediaId);
         return MediaInputMapper.mapMediaToMediaResponse(updatedMedia);
+    }
+
+    @DeleteMapping("/{mediaId}")
+    public ResponseEntity<Void> deleteMediaById(@PathVariable Long mediaId) {
+        mediaInputPort.deleteMediaById(mediaId);
+        return ResponseEntity.noContent().build();
     }
 }

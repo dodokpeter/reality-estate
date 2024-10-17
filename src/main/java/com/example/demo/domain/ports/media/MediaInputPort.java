@@ -10,6 +10,5 @@ public interface MediaInputPort {
     List<Media> getMediaByRealityId(Long realityId);
     Media getMediaById(Long mediaId);
     void deleteMediaById(Long mediaId);
-    List<Media> getAllMedia();
-    List<Media> getMediaByType(MediaType mediaType);
+    List<Media> getMediaByType(Long realityId, MediaType mediaType);
 }

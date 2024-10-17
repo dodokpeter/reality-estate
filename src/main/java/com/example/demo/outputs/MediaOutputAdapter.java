@@ -2,6 +2,7 @@ package com.example.demo.outputs;
 
 import com.example.demo.domain.exceptions.MediaNotFoundException;
 import com.example.demo.domain.models.Media;
+import com.example.demo.domain.models.MediaType;
 import com.example.demo.domain.ports.media.CreateMediaOutputPort;
 import com.example.demo.domain.ports.media.MediaOutputPort;
 import com.example.demo.domain.ports.media.UpdateMediaOutputPort;
@@ -26,7 +27,7 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
 
     @Override
     public List<Media> getMediaByRealityId(Long realityId) {
-        List<MediaEntity> medias = mediaRepository.findAllById(realityId);
+        List<MediaEntity> medias = mediaRepository.findAllByRealityEntityId(realityId);
         return MediaOutputMapper.mapMediaEntityToMediaList(medias);
     }
 
@@ -37,6 +38,12 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
             return MediaOutputMapper.mapMediaEntityToMedia(media.get());
         } else
             return null;
+    }
+
+    @Override
+    public List<Media> getMediaByRealityIdAndMediaType(Long realityId, MediaType mediaType) {
+        List<MediaEntity> medias = mediaRepository.findByRealityEntityIdAndMediaType(realityId, mediaType);
+        return MediaOutputMapper.mapMediaEntityToMediaList(medias);
     }
 
     @Override
@@ -71,4 +78,6 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
     public void deleteMediaById(Long mediaId) {
         mediaRepository.deleteById(mediaId);
     }
+
+
 }

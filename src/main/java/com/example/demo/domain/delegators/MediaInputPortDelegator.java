@@ -2,6 +2,7 @@ package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.exceptions.MediaNotFoundException;
 import com.example.demo.domain.models.Media;
+import com.example.demo.domain.models.MediaType;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.media.*;
 import com.example.demo.domain.ports.realities.RealitiesOutputPort;
@@ -36,6 +37,16 @@ public class MediaInputPortDelegator implements MediaInputPort, CreateMediaInput
         Reality realityById = realitiesOutputPort.getRealityById(realityId);
         media.setReality(realityById);
         return createMediaOutputPort.addMedia(media);
+    }
+
+    @Override
+    public void deleteMediaById(Long id) {
+        mediaOutputPort.deleteMediaById(id);
+    }
+
+    @Override
+    public List<Media> getMediaByType(Long realityId, MediaType mediaType) {
+        return mediaOutputPort.getMediaByRealityIdAndMediaType(realityId, mediaType);
     }
 
     @Override

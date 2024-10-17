@@ -23,7 +23,7 @@ public class MediaInputAdapter {
     private final CreateMediaInputPort createMediaInputPort;
     private final UpdateMediaInputPort updateMediaInputPort;
 
-    @GetMapping("/{realityId}")
+    @GetMapping("/reality/{realityId}")
     public List<MediaResponse> getMediaByRealityId(@PathVariable Long realityId) {
         List<Media> media = mediaInputPort.getMediaByRealityId(realityId);
         List<MediaResponse> mediaResponses = MediaInputMapper.mapMediaToMediaResponse(media);
@@ -35,39 +35,10 @@ public class MediaInputAdapter {
         return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId));
     }
 
-    @GetMapping("/media")
-    public List<MediaResponse> getMediaByMediaType(@RequestParam(required = false) MediaType mediaType) {
-
-        if (mediaType == null) {
-            List<Media> media;
-            media = mediaInputPort.getAllMedia();
-            return MediaInputMapper.mapMediaToMediaResponse(media);
-        } else {
-            List<Media> media;
-            media = mediaInputPort.getMediaByType(mediaType);
-            return MediaInputMapper.mapMediaToMediaResponse(media);
-        }
-
-//        List<Media> media;
-//        if (mediaType == null) {
-//            media = mediaInputPort.getAllMedia();
-//            return MediaInputMapper.mapMediaToMediaResponse(media);
-//        }
-//            media = mediaInputPort.getMediaByType(mediaType);
-//            return MediaInputMapper.mapMediaToMediaResponse(media);
-//
-//
-//        List<Media> media;
-//        if (mediaType == null) {
-//            media = mediaInputPort.getAllMedia();
-//            return MediaInputMapper.mapMediaToMediaResponse(media);
-//        } else {
-//
-//            media = mediaInputPort.getMediaByType(mediaType);
-//            return MediaInputMapper.mapMediaToMediaResponse(media);
-//        }
-//       return MediaInputMapper.mapMediaToMediaResponse(media);
-
+    @GetMapping("/reality-media/{realityId}")
+    public List<MediaResponse> getMediaByMediaType(@PathVariable Long realityId, @RequestParam(required = false) MediaType mediaType) {
+        List<Media> media = mediaType == null ? mediaInputPort.getMediaByRealityId(realityId) : mediaInputPort.getMediaByType(realityId, mediaType);
+        return MediaInputMapper.mapMediaToMediaResponse(media);
     }
 
     @PostMapping("/{realityId}")

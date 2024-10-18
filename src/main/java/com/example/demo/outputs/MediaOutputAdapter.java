@@ -2,6 +2,7 @@ package com.example.demo.outputs;
 
 import com.example.demo.domain.exceptions.MediaNotFoundException;
 import com.example.demo.domain.models.Media;
+import com.example.demo.domain.models.MediaType;
 import com.example.demo.domain.ports.media.CreateMediaOutputPort;
 import com.example.demo.domain.ports.media.MediaOutputPort;
 import com.example.demo.domain.ports.media.UpdateMediaOutputPort;
@@ -28,7 +29,22 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
 
     @Override
     public List<Media> getMediaByRealityId(Long realityId) {
-        List<MediaEntity> medias = mediaRepository.findAllById(realityId);
+        List<MediaEntity> medias = mediaRepository.findAllByRealityEntityId(realityId);
+        return mediaOutputMapper.mapMediaEntityToMediaList(medias);
+    }
+
+    @Override
+    public Media getMediaById(Long mediaId) {
+        Optional<MediaEntity> media = mediaRepository.findById(mediaId);
+        if (media.isPresent()) {
+            return mediaOutputMapper.mapMediaEntityToMedia(media.get());
+        } else
+            return null;
+    }
+
+    @Override
+    public List<Media> getMediaByRealityIdAndMediaType(Long realityId, MediaType mediaType) {
+        List<MediaEntity> medias = mediaRepository.findByRealityEntityIdAndMediaType(realityId, mediaType);
         return mediaOutputMapper.mapMediaEntityToMediaList(medias);
     }
 
@@ -59,4 +75,11 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
             throw new MediaNotFoundException("Položka Media s daným realityId nebola nájdená.");
         }
     }
+
+    @Override
+    public void deleteMediaById(Long mediaId) {
+        mediaRepository.deleteById(mediaId);
+    }
+
+
 }

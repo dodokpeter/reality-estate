@@ -1,9 +1,13 @@
 package com.example.demo.outputs;
 
+import com.example.demo.domain.models.Media;
 import com.example.demo.domain.ports.realities.CreateRealitiesOutputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesOutputPort;
+import com.example.demo.outputs.entities.MediaEntity;
 import com.example.demo.outputs.entities.RealityEntity;
+import com.example.demo.outputs.mappers.MediaOutputMapper;
 import com.example.demo.outputs.mappers.RealityOutputMapper;
+import com.example.demo.outputs.repositories.MediaRepository;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.realities.RealitiesOutputPort;
@@ -25,19 +29,21 @@ import java.util.Optional;
 public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealitiesOutputPort, UpdateRealitiesOutputPort {
 
     private final RealityRepository realityRepository;
-
+    private final MediaRepository mediaRepository;
+    private final RealityOutputMapper realityOutputMapper;
+    private final MediaOutputMapper mediaOutputMapper;
 
     @Override
     public List<Reality> getRealities() {
         var realities = realityRepository.findAll();
-        return RealityOutputMapper.mapRealityEntityListToRealityList(realities);
+        return realityOutputMapper.mapRealityEntityListToRealityList(realities);
     }
 
     @Override
     public Page<Reality> getRealitiesByPage(Pageable page) {
         Page<RealityEntity> realities = realityRepository.findAll(page);
         List<RealityEntity> realityEntityList = realities.getContent();
-        List<Reality> realityList = RealityOutputMapper.mapRealityEntityListToRealityList(realityEntityList);
+        List<Reality> realityList = realityOutputMapper.mapRealityEntityListToRealityList(realityEntityList);
         return new PageImpl<>(realityList, page, realityList.size());
     }
 
@@ -45,7 +51,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     public Reality getRealityById(Long id) {
       Optional<RealityEntity> realityOptional = realityRepository.findById(id);
       if (realityOptional.isPresent()) {
-         return RealityOutputMapper.mapRealityEntityToReality(realityOptional.get());
+         return realityOutputMapper.mapRealityEntityToReality(realityOptional.get());
       } else
          return null;
     }
@@ -53,15 +59,19 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     @Override
     public Reality addReality(Reality reality) {
         log.info("Adding a new reality to the database ...");
-        RealityEntity realityEntity = RealityOutputMapper.mapRealityToRealityEntity(reality);
-        RealityEntity saved = realityRepository.save(realityEntity);
-        return RealityOutputMapper.mapRealityEntityToReality(saved);
+        RealityEntity realityEntity = realityOutputMapper.mapRealityToRealityEntity(reality);
+        RealityEntity savedEntity = realityRepository.save(realityEntity);
+        Reality saved = realityOutputMapper.mapRealityEntityToReality(savedEntity);
 
-        // todo: implement medias
-//        reality.getMedias().forEach(
-//                media -> media.setReality(realityNew)
-//        );
-//        mediaRepository.saveAll(reality.getMedias());
+        List<Media> media = reality.getMedias();
+        media.forEach(
+                m -> m.setReality(saved)
+        );
+        List<MediaEntity> mediaEntities = mediaOutputMapper.mapMediaListToMediaEntityList(media);
+        mediaRepository.saveAll(mediaEntities);
+        saved.setMedias(mediaOutputMapper.mapMediaEntityToMediaList(mediaEntities));
+
+        return saved;
     }
 
     @Override
@@ -77,7 +87,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
             realityInDb.setArea(reality.getArea());
             realityInDb.setDescription(reality.getDescription());
             log.info("Updated the reality (not the media yet) with the current id.");
-            return RealityOutputMapper.mapRealityEntityToReality(realityInDbOpt.get());
+            return realityOutputMapper.mapRealityEntityToReality(realityInDbOpt.get());
         }
         else {
             log.error("Could not find reality with this id.");

@@ -24,18 +24,20 @@ import java.util.Optional;
 public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPort, UpdateMediaOutputPort {
 
     private final MediaRepository mediaRepository;
+    private final MediaOutputMapper mediaOutputMapper;
+    private final RealityOutputMapper realityOutputMapper;
 
     @Override
     public List<Media> getMediaByRealityId(Long realityId) {
         List<MediaEntity> medias = mediaRepository.findAllByRealityEntityId(realityId);
-        return MediaOutputMapper.mapMediaEntityToMediaList(medias);
+        return mediaOutputMapper.mapMediaEntityToMediaList(medias);
     }
 
     @Override
     public Media getMediaById(Long mediaId) {
         Optional<MediaEntity> media = mediaRepository.findById(mediaId);
         if (media.isPresent()) {
-            return MediaOutputMapper.mapMediaEntityToMedia(media.get());
+            return mediaOutputMapper.mapMediaEntityToMedia(media.get());
         } else
             return null;
     }
@@ -43,17 +45,17 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
     @Override
     public List<Media> getMediaByRealityIdAndMediaType(Long realityId, MediaType mediaType) {
         List<MediaEntity> medias = mediaRepository.findByRealityEntityIdAndMediaType(realityId, mediaType);
-        return MediaOutputMapper.mapMediaEntityToMediaList(medias);
+        return mediaOutputMapper.mapMediaEntityToMediaList(medias);
     }
 
     @Override
     public Media addMedia(Media media) {
         log.info("Adding a new reality to the database ...");
-        MediaEntity mediaEntity = MediaOutputMapper.mapMediaToMediaEntity(media);
-        RealityEntity realityEntity = RealityOutputMapper.mapRealityToRealityEntity(media.getReality());
+        MediaEntity mediaEntity = mediaOutputMapper.mapMediaToMediaEntity(media);
+        RealityEntity realityEntity = realityOutputMapper.mapRealityToRealityEntity(media.getReality());
         mediaEntity.setRealityEntity(realityEntity);
         MediaEntity saved = mediaRepository.save(mediaEntity);
-        return MediaOutputMapper.mapMediaEntityToMedia(saved);
+        return mediaOutputMapper.mapMediaEntityToMedia(saved);
     }
 
     @Override
@@ -66,8 +68,9 @@ public class MediaOutputAdapter implements MediaOutputPort, CreateMediaOutputPor
             mediaInDb.setUrl(media.getUrl());
             mediaInDb = mediaRepository.save(mediaInDb);
             log.info("Updated the media with the current id.");
-            return MediaOutputMapper.mapMediaEntityToMedia(mediaInDb);
-        } else {
+            return mediaOutputMapper.mapMediaEntityToMedia(mediaInDb);
+        }
+        else {
             log.error("Could not find media with this id.");
             throw new MediaNotFoundException("Položka Media s daným realityId nebola nájdená.");
         }

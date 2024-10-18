@@ -6,20 +6,18 @@ import com.example.demo.domain.ports.user.AddUserOutputPort;
 import com.example.demo.domain.ports.user.UserInputPort;
 import com.example.demo.domain.ports.user.UserOutputPort;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
 public class UserInputPortDelegator implements UserInputPort, AddUserInputPort {
 
-    private UserOutputPort userOutputPort;
-    private AddUserOutputPort addUserOutputPort;
+    private final UserOutputPort userOutputPort;
+    private final AddUserOutputPort addUserOutputPort;
 
 
     @Override

@@ -16,17 +16,18 @@ import java.util.List;
 public class UserOutputAdapter implements UserOutputPort , AddUserOutputPort {
 
     private final UserRepository userRepository;
+    private final UserOutputMapper userOutputMapper;
 
     @Override
     public List<User> getUsers() {
         var users = userRepository.findAll();
-        return UserOutputMapper.mapUserEntityListToUserList(users);
+        return userOutputMapper.mapUserEntityListToUserList(users);
     }
 
     @Override
     public User addUser(User user) {
-        UserEntity userEntity = UserOutputMapper.mapUserToUserEntity(user);
+        UserEntity userEntity = userOutputMapper.mapUserToUserEntity(user);
         UserEntity newUser = userRepository.save(userEntity);
-        return UserOutputMapper.mapUserEntityToUser(newUser);
+        return userOutputMapper.mapUserEntityToUser(newUser);
     }
 }

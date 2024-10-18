@@ -24,35 +24,36 @@ public class RealityInputAdapter {
     private final CreateRealitiesInputPort createRealitiesInputPort;
     private final UpdateRealitiesInputPort updateRealitiesInputPort;
 
+    private final RealityInputMapper realityInputMapper;
+
     @GetMapping
     public List<RealityResponse> getRealities() {
         List<Reality> realities = realitiesInputPort.getRealities();
-        return RealityInputMapper.mapRealityListToRealityResponseList(realities);
-
+        return realityInputMapper.mapRealityListToRealityResponseList(realities);
     }
 
     @GetMapping("/paginated")
     public Page<RealityResponse> getPage(Pageable page) {
         Page<Reality> realityPage = realitiesInputPort.getRealitiesByPage(page);
         List<Reality> realityList = realityPage.getContent();
-        List<RealityResponse> realityResponseList = RealityInputMapper.mapRealityListToRealityResponseList(realityList);
+        List<RealityResponse> realityResponseList = realityInputMapper.mapRealityListToRealityResponseList(realityList);
         return new PageImpl<>(realityResponseList, page, realityResponseList.size());
     }
 
     @GetMapping("/{realityId}")
     public RealityResponse getRealityById(@PathVariable Long realityId) {
-        return RealityInputMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
+        return realityInputMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
     }
 
     @PostMapping()
     public RealityResponse addReality(@RequestBody Reality reality) {
         Reality addedReality = createRealitiesInputPort.addReality(reality);
-        return RealityInputMapper.mapRealityToRealityResponse(addedReality);
+        return realityInputMapper.mapRealityToRealityResponse(addedReality);
     }
 
     @PostMapping("/{realityId}")
     public RealityResponse updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
         Reality updatedReality = updateRealitiesInputPort.updateReality(reality, realityId);
-        return RealityInputMapper.mapRealityToRealityResponse(updatedReality);
+        return realityInputMapper.mapRealityToRealityResponse(updatedReality);
     }
 }

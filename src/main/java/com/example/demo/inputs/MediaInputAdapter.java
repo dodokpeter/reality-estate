@@ -23,35 +23,36 @@ public class MediaInputAdapter {
     private final CreateMediaInputPort createMediaInputPort;
     private final UpdateMediaInputPort updateMediaInputPort;
 
+    private final MediaInputMapper mediaInputMapper;
+
     @GetMapping("/reality/{realityId}")
     public List<MediaResponse> getMediaByRealityId(@PathVariable Long realityId) {
         List<Media> media = mediaInputPort.getMediaByRealityId(realityId);
-        List<MediaResponse> mediaResponses = MediaInputMapper.mapMediaToMediaResponse(media);
+        List<MediaResponse> mediaResponses = mediaInputMapper.mapMediaToMediaResponse(media);
         return mediaResponses;
     }
 
     @GetMapping("/{mediaId}")
     public MediaResponse getMediaById(@PathVariable Long mediaId) {
-        return MediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId));
+        return mediaInputMapper.mapMediaToMediaResponse(mediaInputPort.getMediaById(mediaId));
     }
 
     @GetMapping("/reality-media/{realityId}")
     public List<MediaResponse> getMediaByMediaType(@PathVariable Long realityId, @RequestParam(required = false) MediaType mediaType) {
         List<Media> media = mediaType == null ? mediaInputPort.getMediaByRealityId(realityId) : mediaInputPort.getMediaByType(realityId, mediaType);
-        return MediaInputMapper.mapMediaToMediaResponse(media);
+        return mediaInputMapper.mapMediaToMediaResponse(media);
     }
 
     @PostMapping("/{realityId}")
     public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) {
         Media addedMedia = createMediaInputPort.addMedia(media, realityId);
-        return MediaInputMapper.mapMediaToMediaResponse(addedMedia);
+        return mediaInputMapper.mapMediaToMediaResponse(addedMedia);
     }
 
-    // todo: what does PATCH mapping do ?
     @PutMapping("/{mediaId}")
     public MediaResponse updateMedia(@RequestBody Media media, @PathVariable Long mediaId) throws MediaNotFoundException {
         Media updatedMedia = updateMediaInputPort.updateMedia(media, mediaId);
-        return MediaInputMapper.mapMediaToMediaResponse(updatedMedia);
+        return mediaInputMapper.mapMediaToMediaResponse(updatedMedia);
     }
 
     @DeleteMapping("/{mediaId}")

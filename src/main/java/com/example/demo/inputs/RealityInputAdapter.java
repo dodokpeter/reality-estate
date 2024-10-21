@@ -51,6 +51,7 @@ public class RealityInputAdapter {
         return realityInputMapper.mapRealityToRealityResponse(addedReality);
     }
 
+    // todo: check if the reality is added by the user that owns the reality
     @PostMapping("/{realityId}")
     public RealityResponse updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
         Reality updatedReality = updateRealitiesInputPort.updateReality(reality, realityId);

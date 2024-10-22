@@ -1,5 +1,6 @@
 package com.example.demo.outputs.entities;
 
+import com.example.demo.domain.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,9 +30,13 @@ public class RealityEntity {
     @OneToMany(mappedBy = "realityEntity", fetch = FetchType.LAZY)
     private List<MediaEntity> medias;
 
+    @ManyToOne()
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private UserEntity userEntity;
+
     @Override
     public String toString() {
-        return "Reality{" +
+        return "RealityEntity{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", location='" + location + '\'' +
@@ -39,7 +44,8 @@ public class RealityEntity {
                 ", rooms=" + rooms +
                 ", area=" + area +
                 ", description='" + description + '\'' +
-//                ", medias=" + medias +
+                ", medias=" + medias +
+                ", userEntity=" + userEntity +
                 '}';
     }
 }

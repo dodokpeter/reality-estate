@@ -1,5 +1,7 @@
 package com.example.demo.domain.delegators;
 
+import com.example.demo.domain.exceptions.RealityNotFoundException;
+import com.example.demo.domain.exceptions.UserNotFoundException;
 import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.user.*;
 import lombok.AllArgsConstructor;
@@ -28,8 +30,8 @@ public class UserInputPortDelegator implements UserInputPort, CreateUserInputPor
     }
 
     @Override
-    public User addUserToReality(long userId, long realityId) {
-        return editUserOutputPort.addUserToReality(userId, realityId);
+    public User assignRealityToUser(Long userId, Long realityId) throws UserNotFoundException, RealityNotFoundException {
+        return editUserOutputPort.assignRealityToUser(userId, realityId);
     }
 }
 

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,8 +25,19 @@ public class UserEntity {
     private String email;
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY)
+    private List<RealityEntity> realityEntities;
+
     @Override
     public String toString() {
-        return "User{" + " id=" + id + ", username='" + username + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", phoneNumber='" + phoneNumber + '\'' + '}';
+        return "UserEntity{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", realityEntities=" + realityEntities +
+                '}';
     }
 }

@@ -40,11 +40,6 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     }
 
     @Override
-    public User getOwner(Long realityId) throws RealityNotFoundException {
-        return realitiesOutputPort.getOwner(realityId);
-    }
-
-    @Override
     public Reality addReality(Reality reality) {
         return createRealitiesOutputPort.addReality(reality);
     }

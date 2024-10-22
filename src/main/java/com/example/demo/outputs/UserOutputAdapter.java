@@ -43,6 +43,17 @@ public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort, 
     }
 
     @Override
+    public User getOwner(Long realityId) throws RealityNotFoundException {
+        Optional<RealityEntity> realityOptional = realityRepository.findById(realityId);
+        if (realityOptional.isPresent()) {
+            return userOutputMapper.mapUserEntityToUser(realityOptional.get().getUserEntity());
+        } else {
+            log.error("Reality with the requested id was not found");
+            throw new RealityNotFoundException("Could not find reality with this id.");
+        }
+    }
+
+    @Override
     public User assign(Long userId, Long realityId) throws UserNotFoundException, RealityNotFoundException {
         // todo: only  mappings / checks should remain here
         // check if the required user exists

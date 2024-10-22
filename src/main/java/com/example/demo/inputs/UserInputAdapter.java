@@ -3,6 +3,7 @@ package com.example.demo.inputs;
 import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.exceptions.UserNotFoundException;
 import com.example.demo.domain.models.User;
+import com.example.demo.domain.ports.realities.RealitiesInputPort;
 import com.example.demo.domain.ports.user.CreateUserInputPort;
 import com.example.demo.domain.ports.user.AssignRealityToUserInputPort;
 import com.example.demo.domain.ports.user.UserInputPort;
@@ -35,6 +36,11 @@ public class UserInputAdapter {
     public UserResponse createUser(@RequestBody User user) {
         User newUser = createUserInputPort.createUser(user);
         return userInputMapper.mapUserToUserResponse(newUser);
+    }
+
+    @GetMapping("/owner/{realityId}")
+    public UserResponse getOwnerOfReality(@PathVariable Long realityId) throws RealityNotFoundException {
+        return userInputMapper.mapUserToUserResponse(userInputPort.getOwner(realityId));
     }
 
     // todo: UserResponse with the list of realities

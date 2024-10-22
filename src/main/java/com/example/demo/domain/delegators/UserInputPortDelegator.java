@@ -30,6 +30,11 @@ public class UserInputPortDelegator implements UserInputPort, CreateUserInputPor
     }
 
     @Override
+    public User getOwner(Long realityId) throws RealityNotFoundException {
+        return userOutputPort.getOwner(realityId);
+    }
+
+    @Override
     public User assign(Long userId, Long realityId) throws UserNotFoundException, RealityNotFoundException {
         // todo: delegate the task to output portS -> getUserById, getRealityById
         // (split the userOutputAdapter functionality)

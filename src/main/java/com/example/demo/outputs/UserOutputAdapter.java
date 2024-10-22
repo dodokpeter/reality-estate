@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,16 @@ public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort, 
         return userOutputMapper.mapUserEntityListToUserList(users);
     }
 
-    // todo: add get user by id
+    @Override
+    public User getUserById(Long userId) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
+        if (userEntityOptional.isPresent()) {
+            return userOutputMapper.mapUserEntityToUser(userEntityOptional.get());
+        } else {
+            log.error("User with the requested id was not found");
+            throw new UserNotFoundException("Could not find user with this id.");
+        }
+    }
 
     @Override
     public User createUser(User user) {

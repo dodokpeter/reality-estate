@@ -25,6 +25,11 @@ public class UserInputPortDelegator implements UserInputPort, CreateUserInputPor
     }
 
     @Override
+    public User getUserById(Long userId) throws UserNotFoundException {
+        return userOutputPort.getUserById(userId);
+    }
+
+    @Override
     public User createUser(User user) {
       return createUserOutputPort.createUser(user);
     }

@@ -32,6 +32,11 @@ public class UserInputAdapter {
         return userResponses;
     }
 
+    @GetMapping("/{userId}")
+    public UserResponse getUserById(@PathVariable("userId") Long userId) throws UserNotFoundException {
+        return userInputMapper.mapUserToUserResponse(userInputPort.getUserById(userId));
+    }
+
     @PostMapping()
     public UserResponse createUser(@RequestBody User user) {
         User newUser = createUserInputPort.createUser(user);

@@ -61,7 +61,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     }
 
     @Override
-    public User getOwnerOfReality(Long realityId) throws RealityNotFoundException {
+    public User getOwner(Long realityId) throws RealityNotFoundException {
         Optional<RealityEntity> realityOptional = realityRepository.findById(realityId);
         if (realityOptional.isPresent()) {
             return userOutputMapper.mapUserEntityToUser(realityOptional.get().getUserEntity());

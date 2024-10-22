@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class UserInputPortDelegator implements UserInputPort, CreateUserInputPort, EditUserInputPort {
+public class UserInputPortDelegator implements UserInputPort, CreateUserInputPort, AssignRealityToUserInputPort {
 
     private final UserOutputPort userOutputPort;
     private final CreateUserOutputPort createUserOutputPort;
-    private final EditUserOutputPort editUserOutputPort;
+    private final AssignRealityToUserOutputPort assignRealityToUserOutputPort;
 
     @Override
     public List<User> getUsers() {
@@ -30,8 +30,10 @@ public class UserInputPortDelegator implements UserInputPort, CreateUserInputPor
     }
 
     @Override
-    public User assignRealityToUser(Long userId, Long realityId) throws UserNotFoundException, RealityNotFoundException {
-        return editUserOutputPort.assignRealityToUser(userId, realityId);
+    public User assign(Long userId, Long realityId) throws UserNotFoundException, RealityNotFoundException {
+        // todo: delegate the task to output portS -> getUserById, getRealityById
+        // (split the userOutputAdapter functionality)
+        return assignRealityToUserOutputPort.assign(userId, realityId);
     }
 }
 

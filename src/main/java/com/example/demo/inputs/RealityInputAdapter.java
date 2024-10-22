@@ -48,10 +48,10 @@ public class RealityInputAdapter {
         return realityInputMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
     }
 
-    // todo: can a reality input adapter return a userResponse
+    // todo: can a reality input adapter return a userResponse -> no, move to userInputAdapter
     @GetMapping("/{realityId}/owner")
     public UserResponse getOwnerOfReality(@PathVariable Long realityId) throws RealityNotFoundException {
-        return userInputMapper.mapUserToUserResponse(realitiesInputPort.getOwnerOfReality(realityId));
+        return userInputMapper.mapUserToUserResponse(realitiesInputPort.getOwner(realityId));
     }
 
     @PostMapping()

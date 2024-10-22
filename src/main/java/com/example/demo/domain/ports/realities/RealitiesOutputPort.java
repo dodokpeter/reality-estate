@@ -15,5 +15,5 @@ public interface RealitiesOutputPort {
 
     Reality getRealityById(Long id);
 
-    User getOwnerOfReality(Long realityId) throws RealityNotFoundException;
+    User getOwner(Long realityId) throws RealityNotFoundException;
 }

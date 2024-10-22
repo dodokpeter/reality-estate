@@ -4,7 +4,7 @@ import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.exceptions.UserNotFoundException;
 import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.user.CreateUserOutputPort;
-import com.example.demo.domain.ports.user.EditUserOutputPort;
+import com.example.demo.domain.ports.user.AssignRealityToUserOutputPort;
 import com.example.demo.domain.ports.user.UserOutputPort;
 import com.example.demo.outputs.entities.RealityEntity;
 import com.example.demo.outputs.entities.UserEntity;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort, EditUserOutputPort {
+public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort, AssignRealityToUserOutputPort {
 
     private final UserRepository userRepository;
     private final UserOutputMapper userOutputMapper;
@@ -43,7 +43,8 @@ public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort, 
     }
 
     @Override
-    public User assignRealityToUser(Long userId, Long realityId) throws UserNotFoundException, RealityNotFoundException {
+    public User assign(Long userId, Long realityId) throws UserNotFoundException, RealityNotFoundException {
+        // todo: only  mappings / checks should remain here
         // check if the required user exists
         Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
         if (userEntityOptional.isPresent()) {

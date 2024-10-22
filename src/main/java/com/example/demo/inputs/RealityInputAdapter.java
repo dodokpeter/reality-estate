@@ -4,9 +4,11 @@ import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.ports.realities.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesInputPort;
 import com.example.demo.inputs.mappers.RealityInputMapper;
+import com.example.demo.inputs.mappers.UserInputMapper;
 import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.realities.RealitiesInputPort;
+import com.example.demo.inputs.models.UserResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,6 +27,7 @@ public class RealityInputAdapter {
     private final UpdateRealitiesInputPort updateRealitiesInputPort;
 
     private final RealityInputMapper realityInputMapper;
+    private final UserInputMapper userInputMapper;
 
     @GetMapping
     public List<RealityResponse> getRealities() {
@@ -43,6 +46,12 @@ public class RealityInputAdapter {
     @GetMapping("/{realityId}")
     public RealityResponse getRealityById(@PathVariable Long realityId) {
         return realityInputMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
+    }
+
+    // todo: can a reality input adapter return a userResponse
+    @GetMapping("/{realityId}/owner")
+    public UserResponse getOwnerOfReality(@PathVariable Long realityId) throws RealityNotFoundException {
+        return userInputMapper.mapUserToUserResponse(realitiesInputPort.getOwnerOfReality(realityId));
     }
 
     @PostMapping()

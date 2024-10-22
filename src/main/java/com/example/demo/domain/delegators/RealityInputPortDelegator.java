@@ -2,6 +2,7 @@ package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.models.Reality;
+import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.realities.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,11 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     @Override
     public Reality getRealityById(Long id) {
         return realitiesOutputPort.getRealityById(id);
+    }
+
+    @Override
+    public User getOwnerOfReality(Long realityId) throws RealityNotFoundException {
+        return realitiesOutputPort.getOwnerOfReality(realityId);
     }
 
     @Override

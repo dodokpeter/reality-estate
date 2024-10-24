@@ -1,9 +1,11 @@
 package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.exceptions.RealityNotFoundException;
+import com.example.demo.domain.exceptions.UserNotFoundException;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.realities.*;
+import com.example.demo.domain.ports.user.UserOutputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,8 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     private final RealitiesOutputPort realitiesOutputPort;
     private final CreateRealitiesOutputPort createRealitiesOutputPort;
     private final UpdateRealitiesOutputPort updateRealitiesOutputPort;
+
+    private final UserOutputPort userOutputPort;
 
 
     @Override
@@ -47,5 +51,13 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     @Override
     public Reality updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
         return updateRealitiesOutputPort.updateReality(reality, realityId);
+    }
+
+    @Override
+    public Reality assignUser(Long userId, Long realityId) throws UserNotFoundException {
+        User user = userOutputPort.getUserById(userId);
+        Reality reality = realitiesOutputPort.getRealityById(realityId);
+        reality.setOwner(user);
+        return updateRealitiesOutputPort.updateReality(reality);
     }
 }

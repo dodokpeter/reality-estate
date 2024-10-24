@@ -2,14 +2,11 @@ package com.example.demo.outputs;
 
 import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.exceptions.UserNotFoundException;
-import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.user.CreateUserOutputPort;
-import com.example.demo.domain.ports.user.AssignRealityToUserOutputPort;
 import com.example.demo.domain.ports.user.UserOutputPort;
 import com.example.demo.outputs.entities.RealityEntity;
 import com.example.demo.outputs.entities.UserEntity;
-import com.example.demo.outputs.mappers.RealityOutputMapper;
 import com.example.demo.outputs.mappers.UserOutputMapper;
 import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.outputs.repositories.UserRepository;
@@ -23,12 +20,11 @@ import java.util.Optional;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort, AssignRealityToUserOutputPort {
+public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort {
 
     private final UserRepository userRepository;
     private final UserOutputMapper userOutputMapper;
     private final RealityRepository realityRepository;
-    private final RealityOutputMapper realityOutputMapper;
 
     @Override
     public List<User> getUsers() {
@@ -58,27 +54,10 @@ public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort, 
     public User getOwner(Long realityId) throws RealityNotFoundException {
         Optional<RealityEntity> realityOptional = realityRepository.findById(realityId);
         if (realityOptional.isPresent()) {
-            return userOutputMapper.mapUserEntityToUser(realityOptional.get().getUserEntity());
+            return userOutputMapper.mapUserEntityToUser(realityOptional.get().getOwner());
         } else {
             log.error("Reality with the requested id was not found");
             throw new RealityNotFoundException("Could not find reality with this id.");
         }
-    }
-
-    @Override
-    public User assign(User user, Reality reality) {
-        log.info("User and reality found, assigning the user...");
-
-        UserEntity userEntity = userOutputMapper.mapUserToUserEntity(user);
-        List<RealityEntity> realityEntityList = userEntity.getRealityEntities();
-
-        RealityEntity realityEntity = realityOutputMapper.mapRealityToRealityEntity(reality);
-        realityEntity.setUserEntity(userEntity);
-        realityEntityList.add(realityEntity);
-        realityRepository.save(realityEntity);
-
-        userEntity.setRealityEntities(realityEntityList);
-        UserEntity updatedUserEntity = userRepository.save(userEntity);
-        return userOutputMapper.mapUserEntityToUser(updatedUserEntity);
     }
 }

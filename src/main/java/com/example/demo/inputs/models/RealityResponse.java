@@ -10,5 +10,6 @@ public record RealityResponse(
     int rooms,
     int area,
     String description,
-    List<MediaResponse> medias
+    List<MediaResponse> medias,
+    UserResponse owner
 ) {}

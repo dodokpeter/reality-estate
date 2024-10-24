@@ -1,6 +1,5 @@
 package com.example.demo.outputs.entities;
 
-import com.example.demo.domain.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +31,7 @@ public class RealityEntity {
 
     @ManyToOne()
     @JoinColumn(name = "userId", referencedColumnName = "id")
-    private UserEntity userEntity;
+    private UserEntity owner;
 
     @Override
     public String toString() {
@@ -45,7 +44,7 @@ public class RealityEntity {
                 ", area=" + area +
                 ", description='" + description + '\'' +
                 ", medias=" + medias +
-                ", userEntity=" + userEntity +
+                ", owner=" + owner +
                 '}';
     }
 }

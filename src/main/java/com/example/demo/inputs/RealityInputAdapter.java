@@ -1,6 +1,8 @@
 package com.example.demo.inputs;
 
 import com.example.demo.domain.exceptions.RealityNotFoundException;
+import com.example.demo.domain.exceptions.UserNotFoundException;
+import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.realities.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesInputPort;
 import com.example.demo.inputs.mappers.RealityInputMapper;
@@ -58,6 +60,12 @@ public class RealityInputAdapter {
     @PostMapping("/{realityId}")
     public RealityResponse updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
         Reality updatedReality = updateRealitiesInputPort.updateReality(reality, realityId);
+        return realityInputMapper.mapRealityToRealityResponse(updatedReality);
+    }
+
+    @PostMapping("/{realityId}/assign/{userId}")
+    public RealityResponse assignUser(@PathVariable Long userId, @PathVariable Long realityId) throws UserNotFoundException, RealityNotFoundException {
+        Reality updatedReality = updateRealitiesInputPort.assignUser(userId, realityId);
         return realityInputMapper.mapRealityToRealityResponse(updatedReality);
     }
 }

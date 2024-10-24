@@ -5,4 +5,5 @@ import com.example.demo.domain.models.Reality;
 
 public interface UpdateRealitiesInputPort {
     Reality updateReality(Reality reality, Long realityId) throws RealityNotFoundException;
+    Reality assignUser(Long userId, Long realityId) throws RealityNotFoundException;
 }

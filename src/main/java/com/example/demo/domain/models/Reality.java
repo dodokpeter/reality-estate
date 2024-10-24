@@ -20,4 +20,5 @@ public class Reality {
     private String description;
 
     private List<Media> medias;
+    private User owner;
 }

@@ -1,7 +1,6 @@
 package com.example.demo.outputs;
 
 import com.example.demo.domain.models.Media;
-import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.realities.CreateRealitiesOutputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesOutputPort;
 import com.example.demo.outputs.entities.MediaEntity;
@@ -97,5 +96,13 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
             log.error("Could not find reality with this id.");
             throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
         }
+    }
+
+    @Override
+    public Reality updateReality(Reality reality) {
+        log.info("Updating the reality...");
+        RealityEntity realityEntity = realityOutputMapper.mapRealityToRealityEntity(reality);
+        realityRepository.save(realityEntity);
+        return reality;
     }
 }

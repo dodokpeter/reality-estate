@@ -25,7 +25,7 @@ public class UserEntity {
     private String email;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<RealityEntity> realityEntities;
 
     @Override

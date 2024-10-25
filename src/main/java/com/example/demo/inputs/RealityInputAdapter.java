@@ -50,6 +50,12 @@ public class RealityInputAdapter {
         return realityInputMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
     }
 
+    // get all realities owned by a specific user
+    @GetMapping("/owner/{userId}")
+    public List<RealityResponse> getRealitiesByOwner(@PathVariable Long userId) {
+        return realityInputMapper.mapRealityListToRealityResponseList(realitiesInputPort.getRealitiesByOwner(userId));
+    }
+
     @PostMapping()
     public RealityResponse addReality(@RequestBody Reality reality) {
         Reality addedReality = createRealitiesInputPort.addReality(reality);

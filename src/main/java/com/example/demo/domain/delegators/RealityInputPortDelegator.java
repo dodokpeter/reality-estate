@@ -44,6 +44,12 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     }
 
     @Override
+    public List<Reality> getRealitiesByOwner(Long userId) {
+        userOutputPort.existsById(userId);  // will throw an exception if the user doesn't exist
+        return realitiesOutputPort.getRealitiesByOwner(userId);
+    }
+
+    @Override
     public Reality addReality(Reality reality) {
         return createRealitiesOutputPort.addReality(reality);
     }

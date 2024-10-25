@@ -10,4 +10,5 @@ public interface RealitiesInputPort {
     List<Reality> getRealities();
     Page<Reality> getRealitiesByPage(Pageable page);
     Reality getRealityById(Long id);
+    List<Reality> getRealitiesByOwner(Long userId);
 }

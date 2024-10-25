@@ -33,13 +33,24 @@ public class UserOutputAdapter implements UserOutputPort, CreateUserOutputPort {
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public User getUserById(Long userId) throws UserNotFoundException {
         Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
         if (userEntityOptional.isPresent()) {
             return userOutputMapper.mapUserEntityToUser(userEntityOptional.get());
         } else {
             log.error("User with the requested id was not found");
             throw new UserNotFoundException("Could not find user with this id.");
+        }
+    }
+
+    @Override
+    public boolean existsById(Long userId) {
+        boolean exists = userRepository.existsById(userId);
+        if (exists) {
+            return true;
+        }
+        else {
+            throw new UserNotFoundException("User not found");
         }
     }
 

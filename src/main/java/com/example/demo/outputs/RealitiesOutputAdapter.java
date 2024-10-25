@@ -1,10 +1,12 @@
 package com.example.demo.outputs;
 
+import com.example.demo.domain.exceptions.UserNotFoundException;
 import com.example.demo.domain.models.Media;
 import com.example.demo.domain.ports.realities.CreateRealitiesOutputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesOutputPort;
 import com.example.demo.outputs.entities.MediaEntity;
 import com.example.demo.outputs.entities.RealityEntity;
+import com.example.demo.outputs.entities.UserEntity;
 import com.example.demo.outputs.mappers.MediaOutputMapper;
 import com.example.demo.outputs.mappers.RealityOutputMapper;
 import com.example.demo.outputs.mappers.UserOutputMapper;
@@ -13,6 +15,7 @@ import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.realities.RealitiesOutputPort;
 import com.example.demo.domain.exceptions.RealityNotFoundException;
+import com.example.demo.outputs.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,7 +37,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
 
     private final RealityOutputMapper realityOutputMapper;
     private final MediaOutputMapper mediaOutputMapper;
-    private final UserOutputMapper userOutputMapper;
+    private final UserRepository userRepository;
 
     @Override
     public List<Reality> getRealities() {
@@ -57,6 +60,12 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
          return realityOutputMapper.mapRealityEntityToReality(realityOptional.get());
       } else
          return null;
+    }
+
+    @Override
+    public List<Reality> getRealitiesByOwner(Long userId) {
+        List<RealityEntity> realityEntityList = realityRepository.findAllByOwnerId(userId);
+        return realityOutputMapper.mapRealityEntityListToRealityList(realityEntityList);
     }
 
     @Override

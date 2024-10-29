@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface RealitiesInputPort {
-    List<Reality> getRealities();
+    List<Reality> getRealities(Integer minPrice, Integer maxPrice);
     Page<Reality> getRealitiesByPage(Pageable page);
     Reality getRealityById(Long id) throws RealityNotFoundException;
     List<Reality> getRealitiesByOwner(Long userId);

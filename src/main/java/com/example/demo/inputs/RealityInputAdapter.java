@@ -31,9 +31,13 @@ public class RealityInputAdapter {
     private final UserInputMapper userInputMapper;
 
     @GetMapping
-    public List<RealityResponse> getRealities() {
-        List<Reality> realities = realitiesInputPort.getRealities();
-        return realityInputMapper.mapRealityListToRealityResponseList(realities);
+    public List<RealityResponse> getRealities(
+            @RequestParam(required = false) Integer minPrice ,
+            @RequestParam(required = false) Integer maxPrice
+    ) {
+        List<Reality> realities = realitiesInputPort.getRealities(minPrice, maxPrice);
+        return RealityInputMapper.mapRealityListToRealityResponseList(realities);
+
     }
 
     @GetMapping("/paginated")

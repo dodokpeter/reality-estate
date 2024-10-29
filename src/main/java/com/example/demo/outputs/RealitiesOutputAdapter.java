@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,9 +38,16 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     private final UserOutputMapper userOutputMapper;
 
     @Override
-    public List<Reality> getRealities() {
-        var realities = realityRepository.findAll();
-        return realityOutputMapper.mapRealityEntityListToRealityList(realities);
+    public List<Reality> getRealities(Integer minPrice, Integer maxPrice) {
+        List<RealityEntity> realities = null;
+
+        if (minPrice == null && maxPrice == null) {
+             realities = realityRepository.findAll();
+        } else {
+             realities = realityRepository.findRealityEntityByPriceInterval(minPrice, maxPrice);
+        }
+
+        return RealityOutputMapper.mapRealityEntityListToRealityList(realities);
     }
 
     @Override

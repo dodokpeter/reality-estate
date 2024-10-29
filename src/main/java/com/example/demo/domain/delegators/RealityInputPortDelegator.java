@@ -29,8 +29,8 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
 
 
     @Override
-    public List<Reality> getRealities() {
-        var realities = realitiesOutputPort.getRealities();
+    public List<Reality> getRealities(Integer minPrice, Integer maxPrice) {
+        var realities = realitiesOutputPort.getRealities(minPrice, maxPrice);
         return realities;
     }
 

@@ -1,0 +1,29 @@
+services:
+  api:
+    #image: spring_app_1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: c_api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_H2_CONSOLE_ENABLED: false
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: user123
+
+  db:
+    image: postgres
+    container_name: c_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user123
+    volumes:
+      - my_data:/var/lib/postgresql/data
+
+
+volumes:
+  my_data:

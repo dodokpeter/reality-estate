@@ -1,6 +1,7 @@
 package com.example.demo.inputs;
 
 import com.example.demo.domain.exceptions.MediaNotFoundException;
+import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.models.Media;
 import com.example.demo.domain.models.MediaType;
 import com.example.demo.domain.ports.media.CreateMediaInputPort;
@@ -44,7 +45,7 @@ public class MediaInputAdapter {
     }
 
     @PostMapping("/{realityId}")
-    public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) {
+    public MediaResponse addMedia(@RequestBody Media media, @PathVariable Long realityId) throws RealityNotFoundException {
         Media addedMedia = createMediaInputPort.addMedia(media, realityId);
         return mediaInputMapper.mapMediaToMediaResponse(addedMedia);
     }

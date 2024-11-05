@@ -2,7 +2,6 @@ package com.example.demo.inputs;
 
 import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.exceptions.UserNotFoundException;
-import com.example.demo.domain.models.User;
 import com.example.demo.domain.ports.realities.CreateRealitiesInputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesInputPort;
 import com.example.demo.inputs.mappers.RealityInputMapper;
@@ -10,8 +9,8 @@ import com.example.demo.inputs.mappers.UserInputMapper;
 import com.example.demo.inputs.models.RealityResponse;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.realities.RealitiesInputPort;
-import com.example.demo.inputs.models.UserResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +45,7 @@ public class RealityInputAdapter {
     }
 
     @GetMapping("/{realityId}")
-    public RealityResponse getRealityById(@PathVariable Long realityId) {
+    public RealityResponse getRealityById(@PathVariable Long realityId) throws RealityNotFoundException {
         return realityInputMapper.mapRealityToRealityResponse(realitiesInputPort.getRealityById(realityId));
     }
 
@@ -62,10 +61,9 @@ public class RealityInputAdapter {
         return realityInputMapper.mapRealityToRealityResponse(addedReality);
     }
 
-    // todo: check if the reality is added by the user that owns the reality
     @PostMapping("/{realityId}")
-    public RealityResponse updateReality(@RequestBody Reality reality, @PathVariable Long realityId) throws RealityNotFoundException {
-        Reality updatedReality = updateRealitiesInputPort.updateReality(reality, realityId);
+    public RealityResponse updateReality(@RequestBody Reality reality, @PathVariable Long realityId, @RequestParam(required = true) Long userId) throws RealityNotFoundException {
+        Reality updatedReality = updateRealitiesInputPort.updateReality(reality, realityId, userId);
         return realityInputMapper.mapRealityToRealityResponse(updatedReality);
     }
 

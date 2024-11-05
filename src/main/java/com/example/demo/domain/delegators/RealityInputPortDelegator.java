@@ -1,5 +1,6 @@
 package com.example.demo.domain.delegators;
 
+import com.example.demo.domain.exceptions.MissingPermissionsException;
 import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.exceptions.UserNotFoundException;
 import com.example.demo.domain.models.Reality;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -39,7 +41,7 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     }
 
     @Override
-    public Reality getRealityById(Long id) {
+    public Reality getRealityById(Long id) throws RealityNotFoundException {
         return realitiesOutputPort.getRealityById(id);
     }
 
@@ -55,12 +57,20 @@ public class RealityInputPortDelegator implements RealitiesInputPort, CreateReal
     }
 
     @Override
-    public Reality updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
-        return updateRealitiesOutputPort.updateReality(reality, realityId);
+    public Reality updateReality(Reality reality, Long realityId, Long userId) throws RealityNotFoundException {
+        // need to check the owner from the db (as the data from the request aren't really reliable)
+        Reality realityFetched = realitiesOutputPort.getRealityById(realityId);
+
+        // check if the user changing the reality is the user sending the request
+        if (!Objects.equals(realityFetched.getOwner().getId(), userId)) {
+            throw new MissingPermissionsException("This user cannot modify this reality");
+        }
+
+        return updateRealitiesOutputPort.updateReality(reality, realityFetched);
     }
 
     @Override
-    public Reality assignUser(Long userId, Long realityId) throws UserNotFoundException {
+    public Reality assignUser(Long userId, Long realityId) throws UserNotFoundException, RealityNotFoundException {
         User user = userOutputPort.getUserById(userId);
         Reality reality = realitiesOutputPort.getRealityById(realityId);
         reality.setOwner(user);

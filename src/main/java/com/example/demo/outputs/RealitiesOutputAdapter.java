@@ -1,12 +1,10 @@
 package com.example.demo.outputs;
 
-import com.example.demo.domain.exceptions.UserNotFoundException;
 import com.example.demo.domain.models.Media;
 import com.example.demo.domain.ports.realities.CreateRealitiesOutputPort;
 import com.example.demo.domain.ports.realities.UpdateRealitiesOutputPort;
 import com.example.demo.outputs.entities.MediaEntity;
 import com.example.demo.outputs.entities.RealityEntity;
-import com.example.demo.outputs.entities.UserEntity;
 import com.example.demo.outputs.mappers.MediaOutputMapper;
 import com.example.demo.outputs.mappers.RealityOutputMapper;
 import com.example.demo.outputs.mappers.UserOutputMapper;
@@ -15,7 +13,6 @@ import com.example.demo.outputs.repositories.RealityRepository;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.realities.RealitiesOutputPort;
 import com.example.demo.domain.exceptions.RealityNotFoundException;
-import com.example.demo.outputs.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,7 +34,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
 
     private final RealityOutputMapper realityOutputMapper;
     private final MediaOutputMapper mediaOutputMapper;
-    private final UserRepository userRepository;
+    private final UserOutputMapper userOutputMapper;
 
     @Override
     public List<Reality> getRealities() {
@@ -54,12 +51,12 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     }
 
     @Override
-    public Reality getRealityById(Long id) {
+    public Reality getRealityById(Long id) throws RealityNotFoundException{
       Optional<RealityEntity> realityOptional = realityRepository.findById(id);
       if (realityOptional.isPresent()) {
          return realityOutputMapper.mapRealityEntityToReality(realityOptional.get());
       } else
-         return null;
+         throw new RealityNotFoundException("Realita s danym id nebola najdena");
     }
 
     @Override
@@ -87,24 +84,17 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
     }
 
     @Override
-    public Reality updateReality(Reality reality, Long realityId) throws RealityNotFoundException {
-        Optional<RealityEntity> realityInDbOpt = realityRepository.findById(realityId);
-        if (realityInDbOpt.isPresent()) {
-            RealityEntity realityInDb = realityInDbOpt.get();
-            realityInDb.setId(realityId);
-            realityInDb.setType(reality.getType());
-            realityInDb.setLocation(reality.getLocation());
-            realityInDb.setPrice(reality.getPrice());
-            realityInDb.setRooms(reality.getRooms());
-            realityInDb.setArea(reality.getArea());
-            realityInDb.setDescription(reality.getDescription());
-            log.info("Updated the reality (not the media yet) with the current id.");
-            return realityOutputMapper.mapRealityEntityToReality(realityInDbOpt.get());
-        }
-        else {
-            log.error("Could not find reality with this id.");
-            throw new RealityNotFoundException("Nehnuteľnosť s daným realityId nebola nájdená.");
-        }
+    public Reality updateReality(Reality reality, Reality realityFetched) {
+        RealityEntity realityEntity = realityOutputMapper.mapRealityToRealityEntity(realityFetched);
+        realityEntity.setType(reality.getType());
+        realityEntity.setLocation(reality.getLocation());
+        realityEntity.setPrice(reality.getPrice());
+        realityEntity.setRooms(reality.getRooms());
+        realityEntity.setArea(reality.getArea());
+        realityEntity.setDescription(reality.getDescription());
+        realityRepository.save(realityEntity);
+        log.info("Updated the reality (not the media yet) with the current id.");
+        return realityOutputMapper.mapRealityEntityToReality(realityEntity);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.demo.domain.delegators;
 
 import com.example.demo.domain.exceptions.MediaNotFoundException;
+import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.models.Media;
 import com.example.demo.domain.models.MediaType;
 import com.example.demo.domain.models.Reality;
@@ -33,7 +34,7 @@ public class MediaInputPortDelegator implements MediaInputPort, CreateMediaInput
     }
 
     @Override
-    public Media addMedia(Media media, Long realityId) {
+    public Media addMedia(Media media, Long realityId) throws RealityNotFoundException {
         Reality realityById = realitiesOutputPort.getRealityById(realityId);
         media.setReality(realityById);
         return createMediaOutputPort.addMedia(media);

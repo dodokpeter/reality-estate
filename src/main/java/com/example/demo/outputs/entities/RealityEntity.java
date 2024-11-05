@@ -29,7 +29,7 @@ public class RealityEntity {
     @OneToMany(mappedBy = "realityEntity", fetch = FetchType.LAZY)
     private List<MediaEntity> medias;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private UserEntity owner;
 

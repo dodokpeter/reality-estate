@@ -47,7 +47,7 @@ public class RealitiesOutputAdapter implements RealitiesOutputPort, CreateRealit
              realities = realityRepository.findRealityEntityByPriceInterval(minPrice, maxPrice);
         }
 
-        return RealityOutputMapper.mapRealityEntityListToRealityList(realities);
+        return realityOutputMapper.mapRealityEntityListToRealityList(realities);
     }
 
     @Override

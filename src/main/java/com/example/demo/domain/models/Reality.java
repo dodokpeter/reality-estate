@@ -21,4 +21,5 @@ public class Reality {
 
     private List<Media> medias;
     private User owner;
+
 }

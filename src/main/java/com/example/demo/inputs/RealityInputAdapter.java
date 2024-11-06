@@ -36,7 +36,7 @@ public class RealityInputAdapter {
             @RequestParam(required = false) Integer maxPrice
     ) {
         List<Reality> realities = realitiesInputPort.getRealities(minPrice, maxPrice);
-        return RealityInputMapper.mapRealityListToRealityResponseList(realities);
+        return realityInputMapper.mapRealityListToRealityResponseList(realities);
 
     }
 

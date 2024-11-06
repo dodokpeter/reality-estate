@@ -12,5 +12,6 @@ public interface RealitiesOutputPort {
 
     Page<Reality> getRealitiesByPage(Pageable page);
 
-    Reality getRealityById(Long id);
+    List<Reality> getRealitiesByOwner(Long userId);
+    Reality getRealityById(Long id) throws RealityNotFoundException;
 }

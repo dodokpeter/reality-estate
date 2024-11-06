@@ -22,4 +22,7 @@ public class Reality {
     private List<Media> medias;
     private User owner;
 
+    public Reality(Long id) {
+        this.id = id;
+    }
 }

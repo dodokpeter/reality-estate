@@ -1,5 +1,6 @@
 package com.example.demo.domain.delegators;
 
+import com.example.demo.domain.exceptions.RealityNotFoundException;
 import com.example.demo.domain.models.Reality;
 import com.example.demo.domain.ports.realities.CreateRealitiesOutputPort;
 import com.example.demo.domain.ports.realities.RealitiesOutputPort;
@@ -65,5 +66,24 @@ class RealityInputPortDelegatorTest {
         assertNotNull(fetchRealitiesPage);
         assertTrue(fetchRealitiesPage.getTotalElements() > 0);
         Mockito.verify(realitiesOutputPort, Mockito.times(1)).getRealitiesByPage(page);
+    }
+
+    @Test
+    void should_return_reality_by_id() throws RealityNotFoundException {
+        Long id = 3L;
+        Mockito.when(realitiesOutputPort.getRealityById(id)).thenReturn(new Reality(id));
+        Reality fetchedReality = realityInputPortDelegator.getRealityById(id);
+
+        assertNotNull(fetchedReality);
+        Mockito.verify(realitiesOutputPort, Mockito.times(1)).getRealityById(id);
+    }
+
+    @Test
+    void should_throw_exception_when_fetching_reality_by_id() throws RealityNotFoundException {
+        Long id = 3L;
+        Mockito.when(realitiesOutputPort.getRealityById(id)).thenThrow(new RealityNotFoundException("Reality with the given id does not exist"));
+
+        assertThrows(RealityNotFoundException.class, () -> realityInputPortDelegator.getRealityById(id));
+        Mockito.verify(realitiesOutputPort, Mockito.times(1)).getRealityById(id);
     }
 }

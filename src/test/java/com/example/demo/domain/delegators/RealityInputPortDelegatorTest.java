@@ -9,6 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,5 +51,19 @@ class RealityInputPortDelegatorTest {
 
         // Verification
         Mockito.verify(realitiesOutputPort, Mockito.times(1)).getRealities(minPrice, maxPrice);
+    }
+
+    @Test
+    void should_return_all_realities_paginated() {
+        Pageable page = null;
+        Page<Reality> realitiesPage = new PageImpl<>(List.of(
+                new Reality(1L), new Reality(2L), new Reality(3L), new Reality(4L)));
+
+        Mockito.when(realitiesOutputPort.getRealitiesByPage(page)).thenReturn(realitiesPage);
+        Page<Reality> fetchRealitiesPage = realityInputPortDelegator.getRealitiesByPage(page);
+
+        assertNotNull(fetchRealitiesPage);
+        assertTrue(fetchRealitiesPage.getTotalElements() > 0);
+        Mockito.verify(realitiesOutputPort, Mockito.times(1)).getRealitiesByPage(page);
     }
 }
